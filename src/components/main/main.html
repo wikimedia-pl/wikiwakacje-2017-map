@@ -1,15 +1,25 @@
 <ww-header></ww-header>
-<div class="ww-container" layout="row">
+
+<div class="ww-container" layout="row"
+      ng-if="!$ctrl.loading.map">
   <ww-sidebar flex="33"
-    cards="$ctrl.cards"
-    loading="$ctrl.loading"
-    highlight="$ctrl.highlight"></ww-sidebar>
+      cards="$ctrl.cards"
+      loading="$ctrl.loading"
+      highlight="$ctrl.highlight"></ww-sidebar>
   <ww-map flex layout="column"
-    ng-if="!$ctrl.loading.map"
-    cards="$ctrl.cards"
-    loading="$ctrl.loading"
-    highlight="$ctrl.highlight"></ww-map>
-  <div flex ng-if="$ctrl.loading.map">
-    Loading map...
+      ng-if="!$ctrl.loading.map"
+      cards="$ctrl.cards"
+      loading="$ctrl.loading"
+      highlight="$ctrl.highlight"></ww-map>
+</div>
+
+<div class="ww-container" layout="row"
+       ng-if="$ctrl.loading.map">
+  <div class="ww-container__map--loading"
+      layout="column" layout-align="center center" flex>
+    <div class="cssload-container">
+      <div class="cssload-speeding-wheel"></div>
+    </div>
+    <span class="md-headline">Wczytywanie mapy</span>
   </div>
 </div>

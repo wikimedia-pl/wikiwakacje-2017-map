@@ -1,3 +1,14 @@
 .ww-container {
   height: calc(100vh - 120px);
+
+  .ww-container__map--loading {
+    padding: 25px 10px;
+    color: #757575;
+    opacity: .5;
+    text-align: center;
+
+    .cssload-container {
+      height: 50px;
+    }
+  }
 }
