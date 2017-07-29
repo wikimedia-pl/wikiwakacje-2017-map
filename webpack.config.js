@@ -1,14 +1,23 @@
 var path = require('path');
 var webpack = require('webpack');
 
+var package = require('./package.json');
+
 var config = {
-  context: path.join(__dirname, "app"),
-  entry: './index.js',
+  context: path.join(__dirname, 'app'),
+  entry: ['babel-polyfill', './index.js'],
   output: {
-    path: path.join(__dirname, "app", "assets"),
-    filename: 'bundle.js'
+    path: path.join(__dirname, 'app', 'assets'),
+    filename: 'bundle.js?v=' + package.version
   },
-  plugins: [],
+  plugins: [
+    function () {
+      this.plugin('watch-run', function (watching, callback) {
+        console.log('\n\n---- ' + new Date().toISOString().replace('T', ' ').replace(/\.[0-9]+Z/, '') + ' ----');
+        callback();
+      })
+    }
+  ],
   module: {
     loaders: [
       {
@@ -16,7 +25,8 @@ var config = {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
-          presets: ['es2015']
+          plugins: ['transform-runtime'],
+          presets: ['es2015', 'stage-2']
         }
       },
       {
@@ -40,9 +50,24 @@ var config = {
   }
 };
 
-if(process.env.NODE_ENV === "production") {
-  config.output.path = path.join(__dirname, "dist");
-  config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+var ENV = process.env.NODE_ENV;
+if (ENV === 'prod' || ENV === 'dev') {
+  config.output = {
+    path: path.join(__dirname, 'app'),
+    publicPath: 'assets/',
+    filename: 'bundle.min.js?v=' + package.version
+  };
+  config.plugins = [
+    new ngAnnotatePlugin({
+      add: true
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      mangle: false
+    })
+  ];
 }
 
 module.exports = config;
