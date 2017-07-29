@@ -8,6 +8,7 @@ const HeaderComponent = {
 };
 
 function controller(
+  $rootScope,
   $scope,
   $timeout,
   leafletData,
@@ -21,15 +22,7 @@ function controller(
   // functions
 
   function changeVersion(version) {
-    console.log('a');
-    versionService.setVersion(version);
-
-    leafletData.getMap().then((map) => {
-      version === 'nature' ?
-        map.addLayer(mapService.tiles.gdos) :
-        map.removeLayer(mapService.tiles.gdos);
-    });
-    // $timeout(() => { getObjects(); });
+    $rootScope.$emit('changeVersion', version);
   }
 }
 

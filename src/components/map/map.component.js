@@ -15,6 +15,7 @@ function controller(
   $scope,
   $http,
   $location,
+  $rootScope,
   $timeout,
   dataService,
   leafletData,
@@ -27,17 +28,12 @@ function controller(
   vm.dragSearch = true;
   vm.events = {};
   vm.icon = mapService.icons.normal;
-  vm.markers = {};
-
   vm.layers = mapService.layers;
+  vm.markers = {};
 
   vm.changeVersion = changeVersion;
 
-  initialize();
-
-  // functions
-
-  function initialize() {
+  vm.$onInit = () => {
     vm.events = {
       map: {
         enable: ['dragend', 'zoomend', 'click'],
@@ -50,38 +46,35 @@ function controller(
       });
       getObjects();
     });
-  }
 
-  // LISTENERS
+    $scope.$on('leafletDirectiveMap.dragend', () => {
+      if (vm.loading.dragSearch) { getObjects(); }
+    });
 
-  $scope.$on('leafletDirectiveMap.dragend', (event, args) => {
-    if (vm.loading.dragSearch) {
-      $timeout(() => { getObjects(); });
-    }
-  });
+    $scope.$on('leafletDirectiveMap.zoomend', () => {
+      if (vm.loading.dragSearch) { getObjects(); }
+    });
 
-  $scope.$on('leafletDirectiveMap.zoomend', (event, args) => {
-    if (vm.loading.dragSearch) {
-      $timeout(() => { getObjects(); });
-    }
-  });
+    $scope.$on('leafletDirectiveMap.click', (event, args) => {
+      if (versionService.getVersion() === 'nature') {
+        const coords = args.leafletEvent.latlng;
+        $timeout(() => { getNature(coords); });
+      }
+    });
 
-  $scope.$on('leafletDirectiveMap.click', (event, args) => {
-    if (versionService.getVersion() === 'nature') {
-      const coords = args.leafletEvent.latlng;
-      $timeout(() => { getNature(coords); });
-    }
-  });
+    $scope.$on('leafletDirectiveMarker.click', (event, args) => {
+      vm.highlight = args.modelName;
+    });
 
-  $scope.$on('leafletDirectiveMarker.click', (event, args) => {
-    vm.highlight = args.modelName;
-  });
+    $scope.$on('centerUrlHash', (event, centerHash) => {
+      $location.search({ c: centerHash });
+    });
 
-  $scope.$on('centerUrlHash', (event, centerHash) => {
-    $location.search({ c: centerHash });
-  });
+    const changeVersionListener = $rootScope.$on('changeVersion', (event, version) => changeVersion(version));
+    $scope.$on('$destroy', () => changeVersionListener());
+  };
 
-  // FUNCTIONS
+  // functions
 
   function changeVersion(version) {
     vm.cards = [];
