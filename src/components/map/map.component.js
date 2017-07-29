@@ -1,3 +1,6 @@
+import './map.scss';
+import template from './map.html';
+
 const MapComponent = {
   bindings: {
     loading: '=',
@@ -5,7 +8,7 @@ const MapComponent = {
     highlight: '=',
   },
   controller,
-  template: () => template,
+  template,
 };
 
 function controller(
@@ -92,8 +95,8 @@ function controller(
   }
 
   function getObjects() {
+    const version = versionService.version;
     $timeout(() => {
-      const version = versionService.version;
       if (version === 'monuments') {
         getMonuments();
       } else if (version === 'art') {
@@ -195,30 +198,6 @@ function controller(
     });
   }
 }
-
-const template = `<div class="ww-map-switcher">
-    <md-button class="md-raised"
-               ng-click="$ctrl.changeVersion('monuments')">
-      <md-icon>account_balance</md-icon>
-      <span>Zabytki</span>
-    </md-button>
-    <md-button class="md-raised"
-               ng-click="$ctrl.changeVersion('nature')">
-      <md-icon>cloud</md-icon>
-      <span>Przyroda</span>
-    </md-button>
-    <md-button class="md-raised"
-               ng-click="$ctrl.changeVersion('art')">
-      <md-icon>extension</md-icon>
-      <span>Sztuka</span>
-    </md-button>
-  </div>
-  <leaflet flex
-      lf-center="$ctrl.center"
-      url-hash-center="yes"
-      event-broadcast="$ctrl.events"
-      markers="$ctrl.markers"
-      bounds="$ctrl.bounds"></leaflet>`;
 
 export default () => {
   angular

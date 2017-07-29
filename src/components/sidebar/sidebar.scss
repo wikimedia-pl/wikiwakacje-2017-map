@@ -1,0 +1,39 @@
+ww-sidebar {
+  position: relative;
+  background: #fafafa;
+
+  .ww-sidebar-info {
+    padding: 25px 10px;
+    color: #757575;
+    opacity: .5;
+    text-align: center;
+
+    .material-icons {
+      font-size: 50px;
+    }
+  }
+
+  .ww-cards {
+    overflow: auto;
+    width: 100%;
+    height: calc(100vh - 128px);
+    background: #fafafa;
+  }
+
+  .ww-cards-loading {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 128px);
+    background: rgba(255,255,255,.8);
+    z-index: 5;
+  }
+
+  .ww-sidebar-options {
+    width: 100%;
+    padding: 0;
+
+    md-list-item {
+      border-top: 1px solid rgba(0,0,0,0.12);
+    }
+  }
+}

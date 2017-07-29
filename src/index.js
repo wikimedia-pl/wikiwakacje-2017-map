@@ -7,7 +7,7 @@ import 'angular-leaflet-directive';
 import 'angular-material/angular-material.css';
 import 'material-design-icons/iconfont/material-icons.css';
 import 'leaflet/dist/leaflet.css';
-import './style.scss';
+import './styles/style.scss';
 
 import components from './components';
 import services from './services';
