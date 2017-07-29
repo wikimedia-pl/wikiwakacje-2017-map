@@ -1,6 +1,20 @@
 ww-header {
+  .ww-header__main {
+    min-height: 50px;
+    .md-toolbar-tools {
+      height: 50px;
+      min-height: 50px;
+    }
+  }
+  
+  .ww-header__buttons-toolbar {
+    min-height: 40px;
+  }
+
   .ww-header__button {
     margin: 0;
+    padding: 2px;
+    border-radius: 0;
   }
   .ww-header__button--monuments {
     background: #3498db;
