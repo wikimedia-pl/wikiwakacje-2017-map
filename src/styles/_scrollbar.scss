@@ -1,20 +1,20 @@
 ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
-  background: #ccc;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background: #aaa;
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 0;
+  border-radius: 0;
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 10px;
   height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -webkit-border-radius: 0;
+  border-radius: 0;
 }
