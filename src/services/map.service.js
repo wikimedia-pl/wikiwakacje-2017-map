@@ -40,6 +40,34 @@ const MapService = () => {
         attribution: 'Generalna Dyrekcja Ochrony Środowiska',
       }),
     },
+    layers: {
+      baselayers: {
+        wiki: {
+          name: 'Wikimedia Maps',
+          type: 'xyz',
+          url: '//maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
+          layerOptions: {
+            subdomains: ['a', 'b', 'c'],
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            continuousWorld: true,
+            maxNativeZoom: 18,
+            maxZoom: 21,
+          },
+        },
+        osm: {
+          name: 'OpenStreetMap',
+          type: 'xyz',
+          url: '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+          layerOptions: {
+            subdomains: ['a', 'b', 'c'],
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            continuousWorld: true,
+            maxNativeZoom: 19,
+            maxZoom: 21,
+          },
+        },
+      },
+    },
   };
   return map;
 };

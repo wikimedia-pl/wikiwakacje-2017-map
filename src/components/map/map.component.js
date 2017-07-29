@@ -29,6 +29,8 @@ function controller(
   vm.icon = mapService.icons.normal;
   vm.markers = {};
 
+  vm.layers = mapService.layers;
+
   vm.changeVersion = changeVersion;
 
   initialize();
