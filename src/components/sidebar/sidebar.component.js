@@ -30,7 +30,7 @@ function controller($scope, mapService, versionService) {
   // FUNCTIONS
 
   function scrollToId(id) {
-    const myElement = document.querySelector(`card[data-id="${id}"]`);
+    const myElement = document.querySelector(`ww-card[data-id="${id}"]`);
     cardContainer.animate({ scrollTop: myElement.offsetTop - 6 }, 'quick');
   }
 }
