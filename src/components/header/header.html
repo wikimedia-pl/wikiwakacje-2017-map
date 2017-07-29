@@ -1,0 +1,29 @@
+<md-toolbar class="md-hue-2">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+      <md-icon>menu</md-icon>
+    </md-button>
+    <h2>
+      <a href="http://wikiwakacje.pl">Wikiwakacje</a>
+    </h2>
+    <span flex></span>
+  </div>
+</md-toolbar>
+<md-toolbar class="md-hue-2"
+              layout="row" layout-align="center center">
+  <md-button class="ww-header__button ww-header__button--nature" flex="33"
+              ng-click="$ctrl.changeVersion('nature')">
+    <md-icon>cloud</md-icon>
+    <span>Przyroda</span>
+  </md-button>
+  <md-button class="ww-header__button ww-header__button--monuments" flex="33"
+              ng-click="$ctrl.changeVersion('monuments')">
+    <md-icon>account_balance</md-icon>
+    <span>Zabytki</span>
+  </md-button>
+  <md-button class="ww-header__button ww-header__button--art" flex="33"
+              ng-click="$ctrl.changeVersion('art')">
+    <md-icon>extension</md-icon>
+    <span>Sztuka</span>
+  </md-button>
+</md-toolbar>

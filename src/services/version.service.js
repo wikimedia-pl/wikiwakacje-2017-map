@@ -13,7 +13,6 @@ const VersionService = (
     getVersion,
     setVersion,
   };
-
   return service;
 
   // functions
