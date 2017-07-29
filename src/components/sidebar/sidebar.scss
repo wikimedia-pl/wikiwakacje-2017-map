@@ -16,16 +16,16 @@ ww-sidebar {
   .ww-cards {
     overflow: auto;
     width: 100%;
-    height: calc(100vh - 128px);
+    height: calc(100vh - 153px);
     background: #fafafa;
   }
 
   .ww-cards-loading {
+    z-index: 5;
     position: absolute;
     width: 100%;
-    height: calc(100vh - 128px);
+    height: calc(100vh - 153px);
     background: rgba(255,255,255,.8);
-    z-index: 5;
   }
 
   .ww-sidebar-options {
