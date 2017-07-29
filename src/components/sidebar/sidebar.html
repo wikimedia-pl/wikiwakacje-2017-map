@@ -1,11 +1,12 @@
 <div class="ww-sidebar"
       layout="column" layout-align="start center">
-    <div class="ww-cards-loading"
+  <div class="ww-cards--loading"
         layout="column" layout-align="center center"
         ng-show="$ctrl.loading.active">
-      <md-progress-circular md-mode="indeterminate"
-        md-diameter="60"></md-progress-circular>
+    <div class="cssload-container">
+      <div class="cssload-speeding-wheel"></div>
     </div>
+  </div>
   <div class="ww-cards">
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
@@ -21,7 +22,7 @@
     </div>
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
-          ng-show="(!$ctrl.cards || !$ctrl.cards.length) && $ctrl.mapPosition.zoom >= 12">
+          ng-show="(!$ctrl.cards || !$ctrl.cards.length) && $ctrl.mapPosition.zoom >= 12 && !$ctrl.loading.active">
       <md-icon>warning</md-icon>
       <span class="md-headline">Brak obiektów na tym obszarze</span>
     </div>

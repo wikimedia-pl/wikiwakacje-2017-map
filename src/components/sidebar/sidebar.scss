@@ -1,6 +1,6 @@
 ww-sidebar {
   position: relative;
-  background: #fafafa;
+  background: #ededed; // #fafafa;
 
   .ww-sidebar-info {
     padding: 25px 10px;
@@ -17,15 +17,15 @@ ww-sidebar {
     overflow: auto;
     width: 100%;
     height: calc(100vh - 183px);
-    background: #fafafa;
+    background: #ededed;
   }
 
-  .ww-cards-loading {
+  .ww-cards--loading {
     z-index: 5;
     position: absolute;
     width: 100%;
     height: calc(100vh - 183px);
-    background: rgba(255,255,255,.8);
+    background: #ededed;
   }
 
   .ww-sidebar-options {

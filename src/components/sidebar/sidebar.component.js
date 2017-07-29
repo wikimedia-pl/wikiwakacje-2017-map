@@ -20,14 +20,16 @@ function controller($scope, mapService, versionService) {
   vm.mapPosition = mapService.center;
   vm.version = versionService.getVersion;
 
-  // WATCH
+  // init
 
-  $scope.$watch(() => vm.highlight, (id) => {
-    if (!id) { return; }
-    scrollToId(id);
-  });
+  vm.$onInit = () => {
+    $scope.$watch(() => vm.highlight, (id) => {
+      if (!id) { return; }
+      scrollToId(id);
+    });
+  };
 
-  // FUNCTIONS
+  // functions
 
   function scrollToId(id) {
     const myElement = document.querySelector(`ww-card[data-id="${id}"]`);
