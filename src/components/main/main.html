@@ -1,0 +1,15 @@
+<ww-header></ww-header>
+<div class="ww-container" layout="row">
+  <ww-sidebar flex="33"
+    cards="$ctrl.cards"
+    loading="$ctrl.loading"
+    highlight="$ctrl.highlight"></ww-sidebar>
+  <ww-map flex layout="column"
+    ng-if="!$ctrl.loading.map"
+    cards="$ctrl.cards"
+    loading="$ctrl.loading"
+    highlight="$ctrl.highlight"></ww-map>
+  <div flex ng-if="$ctrl.loading.map">
+    Loading map...
+  </div>
+</div>
