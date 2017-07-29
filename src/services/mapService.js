@@ -1,4 +1,6 @@
 import L from 'leaflet';
+import '../images/marker-red.png';
+import '../images/marker-shadow.png';
 
 const MapService = function() {
   return {
@@ -10,8 +12,8 @@ const MapService = function() {
     },
     icons: {
       normal: {
-          iconUrl: 'data/marker-red.png',
-          shadowUrl: 'data/marker-shadow.png',
+          iconUrl: 'assets/images/marker-red.png',
+          shadowUrl: 'assets/images/marker-shadow.png',
           iconSize:     [29, 41],
           shadowSize:   [41, 41],
           iconAnchor:   [15, 41],
