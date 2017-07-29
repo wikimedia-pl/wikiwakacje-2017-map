@@ -1,0 +1,57 @@
+<md-card class="ww-card"
+          md-theme="default"
+          md-theme-watch>
+  <md-card-title>
+    <md-card-title-text ng-if="$ctrl.version === 'art'">
+      <span class="md-headline">
+        <small>{{ $ctrl.data.tags.name || 'brak nazwy' }}</small>
+      </span>
+      <span class="md-subhead">
+        {{ $ctrl.data.type }}
+      </span>
+    </md-card-title-text>
+    <md-card-title-text ng-if="$ctrl.version === 'monuments'">
+      <span class="md-headline">
+        <small>{{ $ctrl.data.name_ }}</small>
+      </span>
+      <span class="md-subhead">
+        {{ $ctrl.data.address_ }}
+      </span>
+    </md-card-title-text>
+    <md-card-title-text ng-if="$ctrl.version === 'nature'">
+      <span class="md-headline">
+        <small>{{ $ctrl.data.name }}</small>
+      </span>
+      <span class="md-subhead">
+        {{ $ctrl.natureTypes[$ctrl.data.type] }}
+      </span>
+      <small>(ID: {{ $ctrl.data.id || "?" }})</small>
+    </md-card-title-text>
+
+    <md-card-title-media class="ww-card__image"
+        ng-if="$ctrl.version === 'monuments'">
+      <div class="md-media-sm card-media"
+            layout="row" layout-align="center center"
+            ng-if="$ctrl.data.image">
+        <img class="card-photo"
+              ng-src="//commons.wikimedia.org/w/thumb.php?f={{$ctrl.data.image}}&w=200" />
+      </div>
+    </md-card-title-media>
+  </md-card-title>
+  <md-card-actions layout="row" layout-align="end center">
+    <md-button class="ww-card__more"
+                ng-click="$ctrl.showNatureDetails($ctrl.data)"
+                ng-show="$ctrl.version === 'nature' && $ctrl.data.id">
+      Więcej informacji
+    </md-button>
+    <md-button class="ww-card__map"
+                ng-if="$ctrl.version === 'monuments' || $ctrl.version === 'art'"
+                ng-click="$ctrl.showOnMap()">
+      Mapa
+    </md-button>
+    <md-button class="ww-card__upload"
+                ng-click="$ctrl.upload()">
+      Prześlij zdjęcia
+    </md-button>
+  </md-card-actions>
+</md-card>

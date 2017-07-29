@@ -61,11 +61,11 @@ const template = `<div class="ww-sidebar"
           <md-icon>warning</md-icon>
           <span class="md-headline">Brak obiektów na tym obszarze</span>
         </div>
-        <card class="ww-card-container"
+        <ww-card class="ww-card-container"
               ng-repeat="card in $ctrl.cards"
               ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
               data-id="{{card.id}}"
-              data="card"></card>
+              data="card"></ww-card>
       </div>
       <md-list class="ww-sidebar-options">
         <md-list-item>

@@ -95,37 +95,6 @@ ww-map {
   }
 }
 
-.ww-card-container {
-  width: 100%;
-
-  .ww-card {
-    margin: 8px 16px;
-
-    md-card-title {
-      padding: 16px;
-
-      md-card-title-media {
-          margin: 0;
-      }
-    }
-
-    .card-media {
-      background: #ccc;
-    }
-
-    .card-photo {
-      width: auto;
-      height: auto;
-      max-width: 80px;
-      max-height: 80px;
-    }
-  }
-
-  &.ww-card-active .ww-card {
-    background: #f0f0f0;
-  }
-}
-
 .ww-details {
   .ww-details-photo {
     background: #ccc;
