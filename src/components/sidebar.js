@@ -4,29 +4,35 @@ const SidebarComponent = {
   bindings: {
     cards: '=',
     highlight: '=',
-    loading: '='
+    loading: '=',
   },
-  controller: function($scope, mapService, versionService) {
-    var vm = this;
-    vm.mapPosition = mapService.center;
-    vm.version = versionService.getVersion;
-    var cardContainer = $('.ww-cards');
+  controller,
+  template: () => template,
+};
 
-    // WATCH
+function controller($scope, mapService, versionService) {
+  const vm = this;
+  const cardContainer = $('.ww-cards');
 
-    $scope.$watch(() => vm.highlight, function (id) {
-      if(!id) return;
-      scrollToId(id);
-    });
+  vm.mapPosition = mapService.center;
+  vm.version = versionService.getVersion;
 
-    // FUNCTIONS
+  // WATCH
 
-    function scrollToId(id) {
-      var myElement = document.querySelector('card[data-id="'+id+'"]');
-      cardContainer.animate({scrollTop: myElement.offsetTop-6}, "quick");
-    }
-  },
-  template: `<div class="ww-sidebar"
+  $scope.$watch(() => vm.highlight, (id) => {
+    if (!id) { return; }
+    scrollToId(id);
+  });
+
+  // FUNCTIONS
+
+  function scrollToId(id) {
+    const myElement = document.querySelector(`card[data-id="${id}"]`);
+    cardContainer.animate({ scrollTop: myElement.offsetTop - 6 }, 'quick');
+  }
+}
+
+const template = `<div class="ww-sidebar"
                    layout="column"
                    layout-align="start center">
        <div class="ww-cards-loading"
@@ -67,11 +73,10 @@ const SidebarComponent = {
           <md-switch ng-model="$ctrl.loading.dragSearch" aria-label="Switch"></md-switch>
         </md-list-item>
       </md-list>
-    </div>`
-};
+    </div>`;
 
 export default () => {
   angular
     .module('app')
     .component('wwSidebar', SidebarComponent);
-}
+};
