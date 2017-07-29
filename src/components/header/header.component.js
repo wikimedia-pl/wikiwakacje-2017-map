@@ -7,16 +7,9 @@ const HeaderComponent = {
   template,
 };
 
-function controller(
-  $rootScope,
-  $scope,
-  $timeout,
-  leafletData,
-  mapService,
-  versionService) {
+function controller($rootScope) {
   const vm = this;
 
-  vm.version = versionService.getVersion;
   vm.changeVersion = changeVersion;
 
   // functions
