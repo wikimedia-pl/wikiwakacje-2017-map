@@ -8,8 +8,6 @@ const CardComponent = {
 };
 
 function controller(
-  $mdMedia,
-  $mdDialog,
   $timeout,
   $window,
   mapService,
@@ -17,22 +15,12 @@ function controller(
   dataService) {
   const vm = this;
 
-  vm.$onInit = () => {
-    // fix for monuments
-    vm.data.name_ = dewikify(vm.data.name);
-    vm.data.address_ = dewikify(vm.data.address);
-
-    // fix for art
-    if (vm.data.tags) {
-      const tag = vm.data.tags.historic || vm.data.tags.man_made || vm.data.tags.tourism;
-      vm.data.type = tag ? vm.artTypes[tag] : "?";
-    }
-  };
+  vm.map = mapService.getMap();
+  vm.version = versionService.getVersion();
 
   vm.showNatureDetails = showNatureDetails;
   vm.showOnMap = showOnMap;
   vm.upload = upload;
-  vm.version = versionService.getVersion();
 
   vm.artTypes = {
     wayside_shrine: 'kapliczka',
@@ -52,7 +40,21 @@ function controller(
     PomnikiPrzyrody: 'pomnik przyrody',
   };
 
-  // FUNCTIONS
+  // init
+
+  vm.$onInit = () => {
+    // fix for monuments
+    vm.data.name_ = dewikify(vm.data.name);
+    vm.data.address_ = dewikify(vm.data.address);
+
+    // fix for art
+    if (vm.data.tags) {
+      const tag = vm.data.tags.historic || vm.data.tags.man_made || vm.data.tags.tourism;
+      vm.data.type = tag ? vm.artTypes[tag] : "?";
+    }
+  };
+
+  // functions
 
   function dewikify(text) {
     return text ? text.replace(/\[\[[^[\]|]*\|([^[\]|]*)\]\]/g, '$1') : '';
@@ -83,10 +85,11 @@ function controller(
 
   function showOnMap() {
     $timeout(() => {
-      mapService.forceMapState = true;
-      mapService.center.lat = vm.data.lat;
-      mapService.center.lng = vm.data.lon;
-      mapService.center.zoom = 17;
+      vm.map.highlight = vm.data.id;
+      vm.map.forceMapState = true;
+      vm.map.center.lat = vm.data.lat;
+      vm.map.center.lng = vm.data.lon;
+      vm.map.center.zoom = vm.map.center.zoom < 17 ? 17 : vm.map.center.zoom;
     });
   }
 

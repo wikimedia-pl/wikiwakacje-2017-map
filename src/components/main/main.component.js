@@ -8,22 +8,18 @@ const MainComponent = {
 };
 
 function controller(
+  $rootScope,
   $scope,
-  $mdTheming,
   $timeout,
-  dataService,
   versionService) {
   const vm = this;
 
-  vm.cards = [];
-  vm.highlight = '';
+  vm.cards = null;
   vm.loading = {};
 
-  initialize();
+  // init
 
-  // functions
-
-  function initialize() {
+  vm.$onInit = () => {
     vm.loading = {
       active: false,
       map: true,
@@ -32,7 +28,12 @@ function controller(
 
     versionService.setVersion('monuments');
     $timeout(() => { vm.loading.map = false; }, 2000);
-  }
+
+    const changeVersionListener = $rootScope.$on('changeVersion', () => {
+      vm.cards = null;
+    });
+    $scope.$on('$destroy', () => changeVersionListener());
+  };
 }
 
 export default () => {

@@ -4,13 +4,11 @@
       ng-if="!$ctrl.loading.map">
   <ww-sidebar flex="33"
       cards="$ctrl.cards"
-      loading="$ctrl.loading"
-      highlight="$ctrl.highlight"></ww-sidebar>
+      loading="$ctrl.loading"></ww-sidebar>
   <ww-map flex layout="column"
       ng-if="!$ctrl.loading.map"
       cards="$ctrl.cards"
-      loading="$ctrl.loading"
-      highlight="$ctrl.highlight"></ww-map>
+      loading="$ctrl.loading"></ww-map>
 </div>
 
 <div class="ww-container" layout="row"

@@ -2,27 +2,49 @@ ww-card {
   width: 100%;
 
   .ww-card {
-    margin: 8px 16px;
-    md-card-title {
-      padding: 16px;
-      md-card-title-media {
-          margin: 0;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 0;
+    box-shadow: none;
+
+    .ww-card__image {
+      background: #ededed;
+      width: 120px;
+      height: 120px;
+      margin-right: 10px;
+      .md-media-sm,
+      .md-media-sm > img {
+        width: auto;
+        height: auto;
+        max-width: 120px;
+        max-height: 120px;
       }
     }
-    .card-media {
-      background: #ccc;
+    .ww-card__title {
+      padding-bottom: 5px;
+      font-weight: 600;
+      font-size: 18px;
     }
-    .card-photo {
-      width: auto;
-      height: auto;
-      max-width: 80px;
-      max-height: 80px;
+
+    &:focus {
+      outline: 0;
+      border: 4px solid #bbb;
+      padding: 6px;
     }
+
+    &.ww-card--link {
+      cursor: pointer;
+    }
+  }
+
+  .ww-card__upload {
+    font-weight: 600;
   }
 
   &.ww-card-active {
     .ww-card {
-      background: #f0f0f0;
+      border: 4px solid #bbb;
+      padding: 6px;
     }
   }
 }

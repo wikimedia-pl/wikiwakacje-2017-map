@@ -5,7 +5,6 @@ const MapComponent = {
   bindings: {
     loading: '=',
     cards: '=',
-    highlight: '=',
   },
   controller,
   template,
@@ -61,17 +60,8 @@ function controller(
       getObjects();
     }, 100);
 
-    /*
-    $scope.$on('leafletDirectiveMap.click', (event, args) => {
-      if (versionService.getVersion() === 'nature') {
-        const coords = args.leafletEvent.latlng;
-        $timeout(() => { getNature(coords); });
-      }
-    });
-    */
-
     $scope.$on('leafletDirectiveMarker.click', (event, args) => {
-      vm.highlight = args.modelName;
+      vm.map.highlight = args.modelName;
     });
 
     $scope.$on('centerUrlHash', (event, centerHash) => {
@@ -100,7 +90,7 @@ function controller(
       vm.loading.active = false;
       vm.cards = [];
       mapService.clearMarkers();
-      vm.highlight = '';
+      vm.map.highlight = '';
       return;
     }
 
@@ -114,15 +104,15 @@ function controller(
   function getNature(coords) {
     vm.loading.active = true;
     dataService.getNature(coords).then((data) => {
-      data = data.data.map(element => ({
+      const cards = data.data.map(element => ({
         name: element.info.name || element.info.obiekt,
         id: element.info.kodinspire,
         type: element.layer,
       }));
 
-      vm.cards = data;
+      vm.cards = cards;
       vm.loading.active = false;
-      vm.highlight = '';
+      vm.map.highlight = '';
     });
   }
 
@@ -142,15 +132,14 @@ function controller(
       vm.loading.active = false;
       vm.cards = data.data.elements;
       mapService.clearMarkers();
-      vm.highlight = '';
+      vm.map.highlight = '';
 
       data.data.elements.forEach((element) => {
         vm.map.markers[element.id] = setMarker(element);
       });
-    }, (data) => {
+    }, () => {
       vm.loading.active = false;
       vm.cards = [];
-      // error
     });
   }
 
@@ -170,16 +159,15 @@ function controller(
       vm.loading.active = false;
       vm.cards = data;
       mapService.clearMarkers();
-      vm.highlight = '';
+      vm.map.highlight = '';
 
       if (!data) { return; }
       data.forEach((element) => {
         vm.map.markers[element.id] = setMarker(element);
       });
-    }, (data) => {
+    }, () => {
       vm.loading.active = false;
       vm.cards = [];
-      // error
     });
   }
 
