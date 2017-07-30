@@ -52,4 +52,12 @@ ww-sidebar {
       font-weight: 600;
     }
   }
+
+  .ww-card__upload-extra {
+    width: calc(100% - 16px);
+    margin-bottom: 10px;
+    margin-top: 0; 
+    padding: 15px;
+    font-weight: bold;
+  }
 }

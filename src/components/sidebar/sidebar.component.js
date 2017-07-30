@@ -20,10 +20,13 @@ function controller(
   versionService) {
   const vm = this;
   const cardContainer = $('.ww-cards');
+  const uploadUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=';
 
   vm.highlight = null;
   vm.map = mapService.getMap();
   vm.version = versionService.getVersion();
+
+  vm.uploadExtra = uploadExtra;
 
   // init
 
@@ -44,6 +47,16 @@ function controller(
   function scrollToId(id) {
     const myElement = $window.document.querySelector(`ww-card[data-id="${id}"]`);
     cardContainer.animate({ scrollTop: myElement.offsetTop - 6 }, 'quick');
+  }
+
+  function uploadExtra() {
+    const campaigns = {
+      monuments: 'wikiwakacje-z',
+      nature: 'wikiwakacje-n',
+      art: 'wikiwakacje-s',
+    };
+    const url = `${uploadUrl}${campaigns[vm.version]}`;
+    $window.open(url, '_blank');
   }
 }
 

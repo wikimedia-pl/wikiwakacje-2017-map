@@ -32,6 +32,10 @@
             ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
             data-id="{{card.id}}"
             data="card"></ww-card>
+      <md-button class="ww-card__upload-extra" ng-click="$ctrl.uploadExtra()">
+        <md-icon>file_upload</md-icon>
+        Prześlij zdjęcie obiektu spoza listy
+      </md-button>
     </div>
   </div>
   <md-list class="ww-sidebar-options"

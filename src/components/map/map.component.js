@@ -155,7 +155,7 @@ function controller(
     //  timeout: canceler.promise,
     }).then((data) => {
       vm.loading.active -= 1;
-      vm.cards = data;
+      vm.cards = data || [];
       mapService.clearMarkers();
       vm.map.highlight = '';
 
