@@ -14,6 +14,7 @@ function controller(
   versionService,
   dataService) {
   const vm = this;
+  const uploadUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=';
 
   vm.map = mapService.getMap();
   vm.version = versionService.getVersion();
@@ -50,7 +51,7 @@ function controller(
     // fix for art
     if (vm.data.tags) {
       const tag = vm.data.tags.historic || vm.data.tags.man_made || vm.data.tags.tourism;
-      vm.data.type = tag ? vm.artTypes[tag] : "?";
+      vm.data.type = tag ? vm.artTypes[tag] : '?';
     }
   };
 
@@ -83,6 +84,40 @@ function controller(
     return names[vm.data.type];
   }
 
+  function getArtUploadUrl() {
+    const description = vm.data.tags.name || '';
+    const category = getArtCategory();
+
+    let url = uploadUrl;
+    url += 'wikiwakacje-s&descriptionlang=pl';
+    url += `&description=${description}&categories=${category}&id=${vm.data.id}`;
+    url += `&lat=${vm.data.lat}&lon=${vm.data.lon}`;
+    return url;
+  }
+
+  function getMonumentUploadUrl() {
+    const description = `${vm.data.adm3}, ${vm.data.name_}`;
+    const category = vm.data.commonscat || `Cultural heritage monuments in ${vm.data.adm3}`;
+
+    let url = uploadUrl;
+    url += 'wikiwakacje-z&descriptionlang=pl';
+    url += `&description=${description}&categories=${category}&id=${vm.data.id}`;
+    url += `&lat=${vm.data.lat}&lon=${vm.data.lon}`;
+    return url;
+  }
+
+  function getNatureUploadUrl() {
+    const type = vm.natureTypes[vm.data.type];
+    const description = `${type[0].toUpperCase()}${type.substring(1)}: ${vm.data.name}`;
+    const category = getNatureCategory();
+
+    let url = uploadUrl;
+    url += 'wikiwakacje-n&descriptionlang=pl';
+    url += `&description=${description}&categories=${category}&id=${vm.data.id}`;
+    url += `&lat=${dataService.getLastCoord().lat}&lon=${dataService.getLastCoord().lng}`;
+    return url;
+  }
+
   function showOnMap() {
     vm.map.highlight = vm.data.id;
     vm.map.forceMapState = true;
@@ -97,38 +132,19 @@ function controller(
   }
 
   function upload() {
-    let url = "https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=";
-    if (vm.version === "monuments") {
-      const description = vm.data.adm3 + ", " + vm.data.name_;
-      const category = vm.data.commonscat || "Cultural heritage monuments in " + vm.data.adm3;
-
-      url += "wikiwakacje-z&descriptionlang=pl";
-      url += "&description=" + description + "&categories=" + category + "&id=" + vm.data.id;
-      url += "&lat=" + vm.data.lat + "&lon=" + vm.data.lon;
-
-    } else if(vm.version === "nature") {
-      const description = vm.natureTypes[vm.data.type][0].toUpperCase()
-        + vm.natureTypes[vm.data.type].substring(1)
-        + ": " + vm.data.name;
-      const category = getNatureCategory();
-
-      url += "wikiwakacje-n&descriptionlang=pl";
-      url += "&description=" + description + "&categories=" + category + "&id=" + vm.data.id;
-      url += "&lat=" + dataService.getLastCoord().lat + "&lon=" + dataService.getLastCoord().lng;
-
-    } else if(vm.version === "art") {
-      const description = vm.data.tags.name || "";
-      const category = getArtCategory();
-
-      url += "wikiwakacje-s&descriptionlang=pl";
-      url += "&description=" + description + "&categories=" + category + "&id=" + vm.data.id;
-      url += "&lat=" + vm.data.lat + "&lon=" + vm.data.lon;
+    let url = null;
+    if (vm.version === 'monuments') {
+      url = getMonumentUploadUrl();
+    } else if (vm.version === 'nature') {
+      url = getNatureUploadUrl();
+    } else if (vm.version === 'art') {
+      url = getArtUploadUrl();
     }
-    $window.open(url, "_blank");
+    $window.open(url, '_blank');
   }
 
   function showNatureDetails(data) {
-    $window.open("http://crfop.gdos.gov.pl/CRFOP/widok/viewfop.jsf?fop="+data.id, "_blank");
+    $window.open(`http://crfop.gdos.gov.pl/CRFOP/widok/viewfop.jsf?fop=${data.id}`, '_blank');
   }
 }
 
