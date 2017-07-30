@@ -11,11 +11,20 @@
       placeholder="Wpisz miejscowość, np. Wrocław"
       ng-model="$ctrl.searchInput"
       ng-change="$ctrl.search()"
+      ng-focus="$ctrl.search()"
       ng-model-options="{ debounce: 200 }"/>
+    <md-button class="md-icon-button ww-header__search-clear"
+                ng-if="$ctrl.searchInput"
+                ng-click="$ctrl.clearSearch()">
+      <md-icon>close</md-icon>
+    </md-button>
     <div class="ww-header__search-results">
       <div class="ww-header__search-result"
-            ng-repeat="result in $ctrl.searchResults">
-        {{ result.display_name }}
+            layout="column" layout-align="start stretch"
+            ng-repeat="result in $ctrl.searchResults"
+            ng-click="$ctrl.showOnMap(result)">
+        <strong>{{ result.name }}</strong>
+        <small>{{ result.details }}</small>
       </div>
     </div>
   </div>

@@ -53,7 +53,8 @@ const DataService = (
       params: {
         format: 'json',
         countrycodes: 'pl',
-        q: name,
+        city: name,
+        dedupe: 1,
       },
     });
   }

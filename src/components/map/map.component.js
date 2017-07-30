@@ -42,7 +42,7 @@ function controller(
     $timeout(() => {
       leafletData.getMap().then((map) => {
         map.invalidateSize();
-        map.on('dragend zoomend', () => {
+        map.on('dragend zoomend moveend', () => {
           if (vm.loading.dragSearch) {
             $timeout(() => { getObjects(); }, 100);
           }
