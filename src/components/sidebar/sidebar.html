@@ -34,7 +34,8 @@
             data="card"></ww-card>
     </div>
   </div>
-  <md-list class="ww-sidebar-options">
+  <md-list class="ww-sidebar-options"
+      ng-if="$ctrl.version !== 'nature'">
     <md-list-item>
       <p>Szukaj podczas przesuwania mapy</p>
       <md-switch ng-model="$ctrl.loading.dragSearch" aria-label="Switch"></md-switch>
