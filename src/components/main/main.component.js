@@ -21,7 +21,7 @@ function controller(
 
   vm.$onInit = () => {
     vm.loading = {
-      active: false,
+      active: 0,
       map: true,
       dragSearch: true,
     };

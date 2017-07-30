@@ -36,10 +36,11 @@ function controller(
   // init
 
   vm.$onInit = () => {
-    vm.loading.active = true;
+    vm.loading.active += 1;
     vm.mapPosition = vm.map.center;
 
     $timeout(() => {
+      vm.loading.active -= 1;
       leafletData.getMap().then((map) => {
         map.invalidateSize();
         map.on('dragend zoomend moveend', () => {
@@ -87,7 +88,6 @@ function controller(
 
   function getObjects() {
     if (vm.mapPosition.zoom < 12 || !vm.mapPosition) {
-      vm.loading.active = false;
       vm.cards = [];
       mapService.clearMarkers();
       vm.map.highlight = '';
@@ -102,7 +102,7 @@ function controller(
   }
 
   function getNature(coords) {
-    vm.loading.active = true;
+    vm.loading.active += 1;
     dataService.getNature(coords).then((data) => {
       const cards = data.data.map(element => ({
         name: element.info.name || element.info.obiekt,
@@ -111,7 +111,7 @@ function controller(
       }));
 
       vm.cards = cards;
-      vm.loading.active = false;
+      vm.loading.active -= 1;
       vm.map.highlight = '';
     });
   }
@@ -122,14 +122,14 @@ function controller(
       return;
     }
 
-    vm.loading.active = true;
+    vm.loading.active += 1;
     canceler.resolve();
     canceler = $q.defer();
 
     dataService.getArt(vm.mapBounds, {
-      timeout: canceler.promise,
+    //  timeout: canceler.promise,
     }).then((data) => {
-      vm.loading.active = false;
+      vm.loading.active -= 1;
       vm.cards = data.data.elements;
       mapService.clearMarkers();
       vm.map.highlight = '';
@@ -138,7 +138,7 @@ function controller(
         vm.map.markers[element.id] = setMarker(element);
       });
     }, () => {
-      vm.loading.active = false;
+      vm.loading.active -= 1;
       vm.cards = [];
     });
   }
@@ -149,14 +149,14 @@ function controller(
       return;
     }
 
-    vm.loading.active = true;
+    vm.loading.active += 1;
     canceler.resolve();
     canceler = $q.defer();
 
     dataService.getMonuments(vm.mapBounds, {
-      timeout: canceler.promise,
+    //  timeout: canceler.promise,
     }).then((data) => {
-      vm.loading.active = false;
+      vm.loading.active -= 1;
       vm.cards = data;
       mapService.clearMarkers();
       vm.map.highlight = '';
@@ -166,7 +166,7 @@ function controller(
         vm.map.markers[element.id] = setMarker(element);
       });
     }, () => {
-      vm.loading.active = false;
+      vm.loading.active -= 1;
       vm.cards = [];
     });
   }

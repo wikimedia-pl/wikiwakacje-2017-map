@@ -84,12 +84,15 @@ function controller(
   }
 
   function showOnMap() {
+    vm.map.highlight = vm.data.id;
+    vm.map.forceMapState = true;
+
     $timeout(() => {
-      vm.map.highlight = vm.data.id;
-      vm.map.forceMapState = true;
-      vm.map.center.lat = vm.data.lat;
-      vm.map.center.lng = vm.data.lon;
-      vm.map.center.zoom = vm.map.center.zoom < 17 ? 17 : vm.map.center.zoom;
+      vm.map.center = {
+        lat: vm.data.lat,
+        lng: vm.data.lon,
+        zoom: vm.map.center.zoom < 17 ? 17 : vm.map.center.zoom,
+      };
     });
   }
 
