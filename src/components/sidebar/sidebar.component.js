@@ -6,7 +6,6 @@ import template from './sidebar.html';
 const SidebarComponent = {
   bindings: {
     cards: '=',
-    highlight: '=',
     loading: '=',
   },
   controller,
@@ -20,15 +19,18 @@ function controller(
   versionService) {
   const vm = this;
   const cardContainer = $('.ww-cards');
+  const map = mapService.getMap();
 
-  vm.mapPosition = mapService.getMap().center;
+  vm.highlight = null;
+  vm.mapPosition = map.center;
   vm.version = versionService.getVersion();
 
   // init
 
   vm.$onInit = () => {
-    $scope.$watch(() => vm.highlight, (id) => {
+    $scope.$watch(() => map.highlight, (id) => {
       if (!id) { return; }
+      vm.highlight = map.highlight;
       scrollToId(id);
     });
     const changeVersionListener = $rootScope.$on('changeVersion', () => {

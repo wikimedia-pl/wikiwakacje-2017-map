@@ -8,6 +8,7 @@ const gdosApiUrl = 'http://sdi.gdos.gov.pl/wms';
 
 const MapService = (versionService) => {
   const map = getMapInstance({ forceMapState: false });
+
   const service = {
     clearMarkers,
     getMap: () => map,
@@ -21,6 +22,7 @@ const MapService = (versionService) => {
 
   function clearMarkers() {
     map.markers = {};
+    map.highlight = null;
     return true;
   }
 
@@ -50,9 +52,10 @@ const MapService = (versionService) => {
       center: {
         lat: 52.093,
         lng: 19.468,
-        zoom: 5,
+        zoom: 6,
       },
       markers: {},
+      highlight: null,
       events: {
         map: {
           enable: ['dragend', 'zoomend', 'click'],

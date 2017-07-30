@@ -6,6 +6,18 @@
       <a href="http://wikiwakacje.pl">#wikiwakacje</a>
     </h2>
     <span flex></span>
+    <input class="ww-header__search" flex="66"
+      type="text"
+      placeholder="Wpisz miejscowość, np. Wrocław"
+      ng-model="$ctrl.searchInput"
+      ng-change="$ctrl.search()"
+      ng-model-options="{ debounce: 200 }"/>
+    <div class="ww-header__search-results">
+      <div class="ww-header__search-result"
+            ng-repeat="result in $ctrl.searchResults">
+        {{ result.display_name }}
+      </div>
+    </div>
   </div>
 </md-toolbar>
 <md-toolbar class="md-hue-2 ww-header__buttons-toolbar"

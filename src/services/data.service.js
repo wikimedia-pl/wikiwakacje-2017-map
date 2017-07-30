@@ -12,6 +12,7 @@ const DataService = (
 
   const service = {
     getArt,
+    getCity,
     getMonuments,
     getNature,
     getLastCoord,
@@ -43,6 +44,18 @@ const DataService = (
         );
       out body; >; out skel qt;`,
     }, options));
+  }
+
+  function getCity(name) {
+    return $http({
+      method: 'GET',
+      url: 'http://nominatim.openstreetmap.org/search',
+      params: {
+        format: 'json',
+        countrycodes: 'pl',
+        q: name,
+      },
+    });
   }
 
   function getMonuments(bounds, options) {

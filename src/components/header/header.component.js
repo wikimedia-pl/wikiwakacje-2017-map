@@ -11,16 +11,31 @@ const HeaderComponent = {
 
 function controller(
   $rootScope,
+  dataService,
   versionService) {
   const vm = this;
 
+  vm.searchInput = null;
+  vm.searchResults = null;
+
   vm.changeVersion = changeVersion;
+  vm.search = search;
 
   // functions
 
   function changeVersion(version) {
     versionService.setVersion(version);
     $rootScope.$emit('changeVersion');
+  }
+
+  function search() {
+    if (!vm.searchInput) {
+      vm.searchResults = null;
+      return;
+    }
+    dataService.getCity(vm.searchInput).then((data) => {
+      vm.searchResults = data.data;
+    });
   }
 }
 

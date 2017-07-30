@@ -20,7 +20,20 @@ ww-header {
   }
   
   .ww-header__buttons-toolbar {
+    z-index: 1;
     min-height: 60px;
+  }
+
+  .ww-header__search {
+
+  }
+
+  .ww-header__search-results {
+    position: fixed;
+    z-index: 10;
+    top: 60px;
+    right: 0;
+    background: #37474f;
   }
 
   .ww-header__button {
