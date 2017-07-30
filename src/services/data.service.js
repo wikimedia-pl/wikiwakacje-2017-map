@@ -21,7 +21,7 @@ const DataService = (
 
   // functions
 
-  function getArt(bounds) {
+  function getArt(bounds, options) {
     const b = bounds;
     const bbox = [
       b.southWest.lat,
@@ -30,7 +30,7 @@ const DataService = (
       b.northEast.lng,
     ].join(',');
 
-    return $http({
+    return $http(angular.extend({}, {
       method: 'POST',
       url: overpassApiUrl,
       data: `[out:json][timeout:25];
@@ -42,10 +42,10 @@ const DataService = (
           node["tourism"="artwork"](${bbox});
         );
       out body; >; out skel qt;`,
-    });
+    }, options));
   }
 
-  function getMonuments(bounds) {
+  function getMonuments(bounds, options) {
     const b = bounds;
     const bbox = [
       b.southWest.lng,

@@ -1,8 +1,9 @@
 <leaflet flex
-  lf-center="$ctrl.center"
+  markers="$ctrl.map.markers"
+  markers-watch-options="$ctrl.map.markersWatchOptions"
+  layers="$ctrl.map.layers"
+  center="$ctrl.map.center"
   url-hash-center="yes"
-  event-broadcast="$ctrl.events"
-  markers="$ctrl.markers"
-  layers="$ctrl.layers"
-  bounds="$ctrl.bounds">
+  event-broadcast="$ctrl.map.events"
+  bounds="$ctrl.mapBounds">
 </leaflet>

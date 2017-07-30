@@ -16,7 +16,7 @@
     </div>
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
-          ng-show="$ctrl.version() === 'nature' && $ctrl.mapPosition.zoom >= 12">
+          ng-show="$ctrl.version === 'nature' && $ctrl.mapPosition.zoom >= 12">
       <md-icon>warning</md-icon>
       <span class="md-headline">Kliknij na mapę aby pobrać obiekty</span>
     </div>
@@ -26,11 +26,13 @@
       <md-icon>warning</md-icon>
       <span class="md-headline">Brak obiektów na tym obszarze</span>
     </div>
-    <ww-card class="ww-card-container"
-          ng-repeat="card in $ctrl.cards"
-          ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
-          data-id="{{card.id}}"
-          data="card"></ww-card>
+    <div ng-if="$ctrl.mapPosition.zoom >= 12 ">
+      <ww-card class="ww-card-container"
+            ng-repeat="card in $ctrl.cards"
+            ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
+            data-id="{{card.id}}"
+            data="card"></ww-card>
+    </div>
   </div>
   <md-list class="ww-sidebar-options">
     <md-list-item>

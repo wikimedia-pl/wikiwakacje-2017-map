@@ -13,12 +13,16 @@ const SidebarComponent = {
   template,
 };
 
-function controller($scope, mapService, versionService) {
+function controller(
+  $rootScope,
+  $scope,
+  mapService,
+  versionService) {
   const vm = this;
   const cardContainer = $('.ww-cards');
 
-  vm.mapPosition = mapService.center;
-  vm.version = versionService.getVersion;
+  vm.mapPosition = mapService.getMap().center;
+  vm.version = versionService.getVersion();
 
   // init
 
@@ -27,6 +31,10 @@ function controller($scope, mapService, versionService) {
       if (!id) { return; }
       scrollToId(id);
     });
+    const changeVersionListener = $rootScope.$on('changeVersion', () => {
+      vm.version = versionService.getVersion();
+    });
+    $scope.$on('$destroy', () => changeVersionListener());
   };
 
   // functions

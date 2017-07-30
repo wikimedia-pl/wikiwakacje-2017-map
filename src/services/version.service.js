@@ -1,15 +1,7 @@
-const VersionService = (
-  $timeout,
-  $mdTheming,
-  themeProvider) => {
-  const versions = {
-    monuments: ['blue-grey', 'red'],
-    nature: ['green', 'red'],
-    art: ['pink', 'red'],
-  };
+const VersionService = () => {
+  let version = 'monuments';
 
   const service = {
-    version: 'monuments',
     getVersion,
     setVersion,
   };
@@ -18,16 +10,11 @@ const VersionService = (
   // functions
 
   function getVersion() {
-    return service.version;
+    return version;
   }
 
-  function setVersion(version) {
-    themeProvider.theme(version)
-      .primaryPalette(versions[version][0])
-      .accentPalette(versions[version][1]);
-    $mdTheming.generateTheme(version);
-    themeProvider.setDefaultTheme(version);
-    service.version = version;
+  function setVersion(newVersion) {
+    version = newVersion;
   }
 };
 

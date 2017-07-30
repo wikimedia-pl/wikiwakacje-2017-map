@@ -15,6 +15,7 @@ function controller(
   $scope,
   $http,
   $location,
+  $q,
   $rootScope,
   $timeout,
   dataService,
@@ -22,45 +23,52 @@ function controller(
   mapService,
   versionService) {
   const vm = this;
+  let canceler = $q.defer();
+  let version = 'monuments';
 
-  vm.bounds = '';
-  vm.center = mapService.center;
   vm.dragSearch = true;
   vm.events = {};
-  vm.icon = mapService.icons.normal;
-  vm.layers = mapService.layers;
-  vm.markers = {};
+  vm.map = mapService.getMap();
+  vm.mapBounds = null;
+  vm.mapPosition = null;
 
   vm.changeVersion = changeVersion;
 
+  // init
+
   vm.$onInit = () => {
-    vm.events = {
-      map: {
-        enable: ['dragend', 'zoomend', 'click'],
-        logic: 'emit',
-      },
-    };
+    vm.loading.active = true;
+    vm.mapPosition = vm.map.center;
+
     $timeout(() => {
       leafletData.getMap().then((map) => {
         map.invalidateSize();
+        map.on('dragend zoomend', () => {
+          if (vm.loading.dragSearch) {
+            $timeout(() => { getObjects(); }, 100);
+          }
+        });
+        map.on('dragstart zoomstart', () => {
+          canceler.resolve();
+        });
+        map.on('click', (event) => {
+          if (version === 'nature') {
+            const coords = event.latlng;
+            $timeout(() => { getNature(coords); });
+          }
+        });
       });
       getObjects();
-    });
+    }, 100);
 
-    $scope.$on('leafletDirectiveMap.dragend', () => {
-      if (vm.loading.dragSearch) { getObjects(); }
-    });
-
-    $scope.$on('leafletDirectiveMap.zoomend', () => {
-      if (vm.loading.dragSearch) { getObjects(); }
-    });
-
+    /*
     $scope.$on('leafletDirectiveMap.click', (event, args) => {
       if (versionService.getVersion() === 'nature') {
         const coords = args.leafletEvent.latlng;
         $timeout(() => { getNature(coords); });
       }
     });
+    */
 
     $scope.$on('leafletDirectiveMarker.click', (event, args) => {
       vm.highlight = args.modelName;
@@ -70,45 +78,40 @@ function controller(
       $location.search({ c: centerHash });
     });
 
-    const changeVersionListener = $rootScope.$on('changeVersion', (event, version) => changeVersion(version));
+    const changeVersionListener = $rootScope.$on('changeVersion', () => {
+      version = versionService.getVersion();
+      changeVersion();
+    });
     $scope.$on('$destroy', () => changeVersionListener());
   };
 
   // functions
 
-  function changeVersion(version) {
+  function changeVersion() {
     vm.cards = [];
-    vm.markers = {};
-    versionService.setVersion(version);
-
-    leafletData.getMap().then((map) => {
-      version === 'nature' ?
-        map.addLayer(mapService.tiles.gdos) :
-        map.removeLayer(mapService.tiles.gdos);
-    });
-    $timeout(() => { getObjects(); });
+    const isNature = version === 'nature';
+    mapService.clearMarkers();
+    mapService.showNature(isNature);
+    getObjects();
   }
 
   function getObjects() {
-    const version = versionService.version;
-    $timeout(() => {
-      if (version === 'monuments') {
-        getMonuments();
-      } else if (version === 'art') {
-        getArt();
-      }
-    }, 100);
-  }
-
-  function getNature(coords) {
-    if (vm.center.zoom < 12 || !vm.center) {
+    if (vm.mapPosition.zoom < 12 || !vm.mapPosition) {
       vm.loading.active = false;
       vm.cards = [];
-      vm.markers = {};
+      mapService.clearMarkers();
       vm.highlight = '';
       return;
     }
 
+    if (version === 'monuments') {
+      getMonuments();
+    } else if (version === 'art') {
+      getArt();
+    }
+  }
+
+  function getNature(coords) {
     vm.loading.active = true;
     dataService.getNature(coords).then((data) => {
       data = data.data.map(element => ({
@@ -124,33 +127,26 @@ function controller(
   }
 
   function getArt() {
-    if (vm.center.zoom < 12 || !vm.bounds) {
-      vm.loading.active = false;
-      vm.cards = [];
-      vm.markers = {};
-      vm.highlight = '';
-      return;
-    }
-
-    if (mapService.forceMapState) {
-      mapService.forceMapState = false;
+    if (vm.map.forceMapState) {
+      vm.map.forceMapState = false;
       return;
     }
 
     vm.loading.active = true;
-    dataService.getArt(vm.bounds).then((data) => {
+    canceler.resolve();
+    canceler = $q.defer();
+
+    dataService.getArt(vm.mapBounds, {
+      timeout: canceler.promise,
+    }).then((data) => {
       vm.loading.active = false;
       vm.cards = data.data.elements;
-      vm.markers = {};
+      mapService.clearMarkers();
       vm.highlight = '';
 
-      for(const element of data.data.elements) {
-        vm.markers[element.id] = {
-          lat: element.lat,
-          lng: element.lon,
-          icon: vm.icon,
-        }
-      }
+      data.data.elements.forEach((element) => {
+        vm.map.markers[element.id] = setMarker(element);
+      });
     }, (data) => {
       vm.loading.active = false;
       vm.cards = [];
@@ -159,38 +155,42 @@ function controller(
   }
 
   function getMonuments() {
-    if (vm.center.zoom < 12 || !vm.bounds) {
-      vm.loading.active = false;
-      vm.cards = [];
-      vm.markers = {};
-      vm.highlight = '';
-      return;
-    }
-
-    if (mapService.forceMapState) {
-      mapService.forceMapState = false;
+    if (vm.map.forceMapState) {
+      vm.map.forceMapState = false;
       return;
     }
 
     vm.loading.active = true;
-    dataService.getMonuments(vm.bounds).then((data) => {
+    canceler.resolve();
+    canceler = $q.defer();
+
+    dataService.getMonuments(vm.mapBounds, {
+      timeout: canceler.promise,
+    }).then((data) => {
       vm.loading.active = false;
       vm.cards = data;
-      vm.markers = {};
+      mapService.clearMarkers();
       vm.highlight = '';
 
-      for (const element of data) {
-        vm.markers[element.id] = {
-          lat: element.lat,
-          lng: element.lon,
-          icon: vm.icon,
-        };
-      }
+      if (!data) { return; }
+      data.forEach((element) => {
+        vm.map.markers[element.id] = setMarker(element);
+      });
     }, (data) => {
       vm.loading.active = false;
       vm.cards = [];
       // error
     });
+  }
+
+  function setMarker(element) {
+    return {
+      data: element,
+      lat: element.lat,
+      lng: element.lon,
+      layer: 'pins',
+      icon: mapService.getMapIcon(element),
+    };
   }
 }
 
