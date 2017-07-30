@@ -10,23 +10,23 @@
   <div class="ww-cards">
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
-          ng-show="$ctrl.mapPosition.zoom < 12">
+          ng-show="$ctrl.map.center.zoom < 12">
       <md-icon>info_outline</md-icon>
       <span class="md-headline">Przybliż mapę, aby pobrać obiekty</span>
     </div>
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
-          ng-show="$ctrl.version === 'nature' && $ctrl.mapPosition.zoom >= 12">
+          ng-show="$ctrl.version === 'nature' && $ctrl.map.center.zoom >= 12">
       <md-icon>warning</md-icon>
       <span class="md-headline">Kliknij na mapę aby pobrać obiekty</span>
     </div>
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
-          ng-show="($ctrl.cards && !$ctrl.cards.length) && $ctrl.mapPosition.zoom >= 12 && !$ctrl.loading.active">
+          ng-show="($ctrl.cards && !$ctrl.cards.length) && $ctrl.map.center.zoom >= 12 && !$ctrl.loading.active">
       <md-icon>warning</md-icon>
       <span class="md-headline">Brak obiektów na tym obszarze</span>
     </div>
-    <div ng-if="$ctrl.mapPosition.zoom >= 12 ">
+    <div ng-if="$ctrl.map.center.zoom >= 12 ">
       <ww-card class="ww-card-container"
             ng-repeat="card in $ctrl.cards"
             ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"

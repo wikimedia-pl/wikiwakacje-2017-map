@@ -15,22 +15,22 @@ const SidebarComponent = {
 function controller(
   $rootScope,
   $scope,
+  $window,
   mapService,
   versionService) {
   const vm = this;
   const cardContainer = $('.ww-cards');
-  const map = mapService.getMap();
 
   vm.highlight = null;
-  vm.mapPosition = map.center;
+  vm.map = mapService.getMap();
   vm.version = versionService.getVersion();
 
   // init
 
   vm.$onInit = () => {
-    $scope.$watch(() => map.highlight, (id) => {
+    $scope.$watch(() => vm.map.highlight, (id) => {
       if (!id) { return; }
-      vm.highlight = map.highlight;
+      vm.highlight = vm.map.highlight;
       scrollToId(id);
     });
     const changeVersionListener = $rootScope.$on('changeVersion', () => {
@@ -42,7 +42,7 @@ function controller(
   // functions
 
   function scrollToId(id) {
-    const myElement = document.querySelector(`ww-card[data-id="${id}"]`);
+    const myElement = $window.document.querySelector(`ww-card[data-id="${id}"]`);
     cardContainer.animate({ scrollTop: myElement.offsetTop - 6 }, 'quick');
   }
 }

@@ -29,7 +29,6 @@ function controller(
   vm.events = {};
   vm.map = mapService.getMap();
   vm.mapBounds = null;
-  vm.mapPosition = null;
 
   vm.changeVersion = changeVersion;
 
@@ -37,13 +36,12 @@ function controller(
 
   vm.$onInit = () => {
     vm.loading.active += 1;
-    vm.mapPosition = vm.map.center;
 
     $timeout(() => {
       vm.loading.active -= 1;
       leafletData.getMap().then((map) => {
         map.invalidateSize();
-        map.on('dragend zoomend moveend', () => {
+        map.on('zoomend moveend', () => {
           if (vm.loading.dragSearch) {
             $timeout(() => { getObjects(); }, 100);
           }
@@ -87,7 +85,7 @@ function controller(
   }
 
   function getObjects() {
-    if (vm.mapPosition.zoom < 12 || !vm.mapPosition) {
+    if (vm.map.center.zoom < 12 || !vm.map.center) {
       vm.cards = [];
       mapService.clearMarkers();
       vm.map.highlight = '';
