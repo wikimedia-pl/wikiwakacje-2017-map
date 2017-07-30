@@ -1,11 +1,14 @@
 <ww-header></ww-header>
 
-<div class="ww-container" layout="row"
+<div class="ww-container"
+      layout="row" layout-align="center stretch"
+      layout-xs="column" layout-align-xs="start stretch"
       ng-if="!$ctrl.loading.map">
-  <ww-sidebar flex="33"
+  <ww-sidebar flex="33" flex-xs="30" flex-order-xs="2"
       cards="$ctrl.cards"
       loading="$ctrl.loading"></ww-sidebar>
-  <ww-map flex layout="column"
+  <ww-map flex flex-order-xs="1"
+      layout="column"
       ng-if="!$ctrl.loading.map"
       cards="$ctrl.cards"
       loading="$ctrl.loading"></ww-map>

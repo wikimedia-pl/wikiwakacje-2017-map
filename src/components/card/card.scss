@@ -1,3 +1,5 @@
+@import '../../styles/responsive';
+
 ww-card {
   width: 100%;
 
@@ -19,11 +21,25 @@ ww-card {
         max-width: 120px;
         max-height: 120px;
       }
+
+      @include x-small { 
+        width: 80px;
+        height: 80px;
+        .md-media-sm,
+        .md-media-sm > img {
+          max-width: 80px;
+          max-height: 80px;
+        }
+      }
     }
     .ww-card__title {
       padding-bottom: 5px;
       font-weight: 600;
       font-size: 18px;
+
+      @include x-small {
+        font-size: 16px;
+      }
     }
 
     &:focus {

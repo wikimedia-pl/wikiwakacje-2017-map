@@ -1,12 +1,13 @@
 <md-toolbar class="md-hue-2 ww-header__main">
   <div class="md-toolbar-tools"
         layout="row" layout-align="center center">
-    <img class="ww-header__logo" src="assets/images/logo.png" alt="Wikiwakacje">
-    <h2 class="ww-header__title">
+    <img class="ww-header__logo" hide-xs
+          src="assets/images/logo.png" alt="Wikiwakacje">
+    <h2 class="ww-header__title" hide-xs>
       <a href="http://wikiwakacje.pl">#wikiwakacje</a>
     </h2>
     <span flex></span>
-    <input class="ww-header__search" flex="66"
+    <input class="ww-header__search" flex="66" flex-xs="100"
       type="text"
       placeholder="Wpisz miejscowość, np. Wrocław"
       ng-model="$ctrl.searchInput"
@@ -33,17 +34,17 @@
               layout="row" layout-align="center center">
   <md-button class="ww-header__button ww-header__button--nature" flex="33"
               ng-click="$ctrl.changeVersion('nature')">
-    <md-icon>cloud</md-icon>
+    <md-icon hide-xs>cloud</md-icon>
     <span>Przyroda</span>
   </md-button>
   <md-button class="ww-header__button ww-header__button--monuments" flex="33"
               ng-click="$ctrl.changeVersion('monuments')">
-    <md-icon>account_balance</md-icon>
+    <md-icon hide-xs>account_balance</md-icon>
     <span>Zabytki</span>
   </md-button>
   <md-button class="ww-header__button ww-header__button--art" flex="33"
               ng-click="$ctrl.changeVersion('art')">
-    <md-icon>extension</md-icon>
+    <md-icon hide-xs>extension</md-icon>
     <span>Sztuka</span>
   </md-button>
 </md-toolbar>
