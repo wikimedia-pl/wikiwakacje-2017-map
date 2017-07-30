@@ -16,7 +16,7 @@ ww-sidebar {
   .ww-cards {
     overflow: auto;
     width: 100%;
-    height: calc(100vh - 183px);
+    height: calc(100vh - 186px);
     background: #ededed;
   }
 
@@ -24,7 +24,7 @@ ww-sidebar {
     z-index: 5;
     position: absolute;
     width: 100%;
-    height: calc(100vh - 183px);
+    height: calc(100vh - 186px);
     background: #ededed;
   }
 
@@ -33,7 +33,9 @@ ww-sidebar {
     padding: 0;
 
     md-list-item {
-      border-top: 1px solid rgba(0,0,0,0.12);
+      background: white;
+      border-top: 4px solid #ddd;
+      font-weight: 600;
     }
   }
 }

@@ -1,4 +1,8 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300&subset=latin,latin-ext);
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600&subset=latin-ext');
 
 @import 'scrollbar';
 @import 'spinner';
+
+html, body {
+  font-family: 'Open Sans', sans-serif;
+}
