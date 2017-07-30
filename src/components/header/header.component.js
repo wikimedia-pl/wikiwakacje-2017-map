@@ -9,7 +9,9 @@ const HeaderComponent = {
   template,
 };
 
-function controller($rootScope) {
+function controller(
+  $rootScope,
+  versionService) {
   const vm = this;
 
   vm.changeVersion = changeVersion;
@@ -17,7 +19,8 @@ function controller($rootScope) {
   // functions
 
   function changeVersion(version) {
-    $rootScope.$emit('changeVersion', version);
+    versionService.setVersion(version);
+    $rootScope.$emit('changeVersion');
   }
 }
 
