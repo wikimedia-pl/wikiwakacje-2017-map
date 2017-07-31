@@ -32,7 +32,9 @@ function controller(
       if (!item) { return; }
       const selectedItem = vm.cards.filter(card => card.id === item.id)[0];
       vm.highlight = selectedItem.id;
-      scrollToId(selectedItem);
+      if (!item.stopScroll) {
+        scrollToId(selectedItem);
+      }
     });
     const changeVersionListener = $rootScope.$on('changeVersion', () => {
       vm.version = versionService.getVersion();

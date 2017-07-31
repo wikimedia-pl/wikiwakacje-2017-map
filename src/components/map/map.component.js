@@ -41,7 +41,7 @@ function controller(
       vm.loading.active -= 1;
       leafletData.getMap().then((map) => {
         map.invalidateSize();
-        map.on('zoomend moveend', () => {
+        map.on('moveend', () => {
           if (vm.loading.dragSearch) {
             $timeout(() => { getObjects(); }, 100);
           }

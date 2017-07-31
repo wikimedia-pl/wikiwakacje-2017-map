@@ -115,7 +115,7 @@ function controller(
   }
 
   function showOnMap() {
-    vm.map.highlight = vm.data;
+    vm.map.highlight = angular.extend({}, vm.data, { stopScroll: true });
     vm.map.forceMapState = true;
 
     $timeout(() => {
