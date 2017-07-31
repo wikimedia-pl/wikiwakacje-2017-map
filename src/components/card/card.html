@@ -54,7 +54,12 @@
       <div layout="row" layout-align="end start">
         <md-button class="ww-card__more"
                     ng-click="$ctrl.showNatureDetails($ctrl.data); $event.stopPropagation()"
-                    ng-show="$ctrl.version === 'nature' && $ctrl.data.id">
+                    ng-if="$ctrl.version === 'nature' && $ctrl.data.id">
+          Więcej informacji
+        </md-button>
+        <md-button class="ww-card__more"
+                    ng-href="//www.wikidata.org/wiki/Q{{ $ctrl.data.id }}?uselang=pl" target="_blank"
+                    ng-if="$ctrl.version === 'monuments' && $ctrl.data.id">
           Więcej informacji
         </md-button>
         <md-button class="ww-card__upload"
