@@ -14,6 +14,7 @@ const DataService = (
     getArt,
     getCity,
     getMonuments,
+    getMonumentsOld,
     getNature,
     getLastCoord,
   };
@@ -61,6 +62,31 @@ const DataService = (
 
   function getMonuments(bounds, options) {
     const b = bounds;
+    const query = `SELECT ?item ?itemLabel ?townLabel ?image ?coord ?category ?townCategory ?adminCategory WHERE {
+      SERVICE wikibase:box {
+      ?item wdt:P625 ?coord .
+        bd:serviceParam wikibase:cornerWest "Point(${b.southWest.lng} ${b.southWest.lat})"^^geo:wktLiteral .
+        bd:serviceParam wikibase:cornerEast "Point(${b.northEast.lng} ${b.northEast.lat})"^^geo:wktLiteral .
+      }
+      OPTIONAL { ?item wdt:P131 ?town . }
+      OPTIONAL { ?item wdt:P131 ?town . ?town wdt:P373 ?townCategory }
+      OPTIONAL { ?item wdt:P131 ?town . ?town wdt:P131 ?admin . ?admin wdt:P373 ?adminCategory }
+      OPTIONAL { ?item wdt:P18 ?image . }
+      ?item p:P1435 ?monument .
+      OPTIONAL { ?item wdt:P31 ?type }
+      OPTIONAL { ?item wdt:P373 ?category }
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "pl,en" }
+    }
+    LIMIT 2000`.replace(/ {2,}/g, ' ');
+    return $http(angular.extend({}, {
+      method: 'GET',
+      url: 'https://query.wikidata.org/sparql',
+      params: { query },
+    }, options));
+  }
+
+  function getMonumentsOld(bounds) {
+    const b = bounds;
     const bbox = [
       b.southWest.lng,
       b.southWest.lat,
@@ -76,12 +102,10 @@ const DataService = (
           action: 'search',
           format: 'json',
           limit: '100',
-          //callback: 'jsonCallback',
           srcountry: 'pl',
           bbox,
         },
         async: false,
-        //jsonpCallback: 'jsonCallback',
         contentType: 'application/json',
         dataType: 'jsonp',
         success: (data) => {

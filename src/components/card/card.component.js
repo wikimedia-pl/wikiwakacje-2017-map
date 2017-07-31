@@ -45,8 +45,8 @@ function controller(
 
   vm.$onInit = () => {
     // fix for monuments
-    vm.data.name_ = dewikify(vm.data.name);
-    vm.data.address_ = dewikify(vm.data.address);
+    // vm.data.name_ = dewikify(vm.data.name);
+    // vm.data.address_ = dewikify(vm.data.address);
 
     // fix for art
     if (vm.data.tags) {
@@ -56,10 +56,6 @@ function controller(
   };
 
   // functions
-
-  function dewikify(text) {
-    return text ? text.replace(/\[\[[^[\]|]*\|([^[\]|]*)\]\]/g, '$1') : '';
-  }
 
   function getArtCategory() {
     const names = {
@@ -96,8 +92,8 @@ function controller(
   }
 
   function getMonumentUploadUrl() {
-    const description = `${vm.data.adm3}, ${vm.data.name_}`;
-    const category = vm.data.commonscat || `Cultural heritage monuments in ${vm.data.adm3}`;
+    const description = [vm.data.town, vm.data.name].join(', ');
+    const category = vm.data.category || `Cultural heritage monuments in ${vm.data.category3 || vm.data.category2 || 'Poland'}`;
 
     let url = uploadUrl;
     url += 'wikiwakacje-z&descriptionlang=pl';
@@ -119,7 +115,7 @@ function controller(
   }
 
   function showOnMap() {
-    vm.map.highlight = vm.data.id;
+    vm.map.highlight = vm.data;
     vm.map.forceMapState = true;
 
     $timeout(() => {

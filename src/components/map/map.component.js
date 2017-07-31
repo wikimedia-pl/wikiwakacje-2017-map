@@ -60,7 +60,7 @@ function controller(
     }, 100);
 
     $scope.$on('leafletDirectiveMarker.click', (event, args) => {
-      vm.map.highlight = args.modelName;
+      vm.map.highlight = args.model.data;
     });
 
     $scope.$on('centerUrlHash', (event, centerHash) => {
@@ -155,12 +155,33 @@ function controller(
     //  timeout: canceler.promise,
     }).then((data) => {
       vm.loading.active -= 1;
-      vm.cards = data || [];
+
+      const cards = data.data.results.bindings
+        .map((object) => {
+          const coord = object.coord.value
+            .replace('Point(', '').replace(')', '')
+            .split(' ');
+
+          return {
+            id: object.item.value.substring(32),
+            name: object.itemLabel ? object.itemLabel.value : undefined,
+            lat: +coord[1],
+            lon: +coord[0],
+            image: object.image ? object.image.value.substring(51) : undefined,
+            town: object.townLabel ? object.townLabel.value : undefined,
+            category: object.category ? object.category.value : undefined,
+            category2: object.townCategory ? object.townCategory.value : undefined,
+            category3: object.adminCategory ? object.adminCategory.value : undefined,
+          };
+        })
+        .filter((element, index, array) => array.findIndex(t => t.id === element.id) === index);
+
+      vm.cards = cards || [];
       mapService.clearMarkers();
       vm.map.highlight = '';
 
       if (!data) { return; }
-      data.forEach((element) => {
+      cards.forEach((element) => {
         vm.map.markers[element.id] = setMarker(element);
       });
     }, () => {
@@ -170,13 +191,14 @@ function controller(
   }
 
   function setMarker(element) {
-    return {
+    const data = {
       data: element,
       lat: element.lat,
       lng: element.lon,
       layer: 'pins',
       icon: mapService.getMapIcon(element),
     };
+    return data;
   }
 }
 

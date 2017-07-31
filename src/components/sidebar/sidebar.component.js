@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 import './sidebar.scss';
 import template from './sidebar.html';
 
@@ -19,7 +17,6 @@ function controller(
   mapService,
   versionService) {
   const vm = this;
-  const cardContainer = $('.ww-cards');
   const uploadUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=';
 
   vm.highlight = null;
@@ -31,10 +28,11 @@ function controller(
   // init
 
   vm.$onInit = () => {
-    $scope.$watch(() => vm.map.highlight, (id) => {
-      if (!id) { return; }
-      vm.highlight = vm.map.highlight;
-      scrollToId(id);
+    $scope.$watch(() => vm.map.highlight, (item) => {
+      if (!item) { return; }
+      const selectedItem = vm.cards.filter(card => card.id === item.id)[0];
+      vm.highlight = selectedItem.id;
+      scrollToId(selectedItem);
     });
     const changeVersionListener = $rootScope.$on('changeVersion', () => {
       vm.version = versionService.getVersion();
@@ -44,9 +42,8 @@ function controller(
 
   // functions
 
-  function scrollToId(id) {
-    const myElement = $window.document.querySelector(`ww-card[data-id="${id}"]`);
-    cardContainer.animate({ scrollTop: myElement.offsetTop - 6 }, 'quick');
+  function scrollToId(item) {
+    vm.topIndex = vm.cards.indexOf(item);
   }
 
   function uploadExtra() {

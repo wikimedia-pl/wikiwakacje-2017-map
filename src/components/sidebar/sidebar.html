@@ -7,7 +7,8 @@
       <div class="cssload-speeding-wheel"></div>
     </div>
   </div>
-  <div class="ww-cards">
+  <div class="ww-cards"
+        layout="column" layout-align="start stretch">
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
           ng-show="$ctrl.map.center.zoom < 12">
@@ -26,12 +27,16 @@
       <md-icon>warning</md-icon>
       <span class="md-headline">Brak obiektów na tym obszarze</span>
     </div>
-    <div ng-if="$ctrl.map.center.zoom >= 12 ">
-      <ww-card class="ww-card-container"
-            ng-repeat="card in $ctrl.cards"
-            ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
-            data-id="{{card.id}}"
-            data="card"></ww-card>
+    <div ng-show="$ctrl.map.center.zoom >= 12" flex
+          layout="column" layout-align="start stretch">
+      <md-virtual-repeat-container md-top-index="$ctrl.topIndex" flex>
+        <div md-virtual-repeat="card in $ctrl.cards">
+          <ww-card class="ww-card-container"
+                ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
+                data-id="{{card.id}}"
+                data="card"></ww-card>
+        </div>
+      </md-virtual-repeat-container>
       <md-button class="ww-card__upload-extra" ng-click="$ctrl.uploadExtra()">
         <md-icon>file_upload</md-icon>
         Prześlij zdjęcie obiektu spoza listy
