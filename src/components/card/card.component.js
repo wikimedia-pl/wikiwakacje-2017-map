@@ -93,7 +93,7 @@ function controller(
 
   function getMonumentUploadUrl() {
     const description = [vm.data.town, vm.data.name].join(', ');
-    const category = vm.data.category || `Cultural heritage monuments in ${vm.data.category3 || vm.data.category2 || 'Poland'}`;
+    const category = vm.data.category || `${vm.data.category2 || vm.data.category3 || 'Cultural heritage monuments in Poland'}`;
 
     let url = uploadUrl;
     url += 'wikiwakacje-z&descriptionlang=pl';
