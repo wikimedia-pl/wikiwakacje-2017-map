@@ -11,16 +11,19 @@ const SidebarComponent = {
 };
 
 function controller(
+  $location,
   $rootScope,
   $scope,
   $window,
   mapService,
+  textService,
   versionService) {
   const vm = this;
   const uploadUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=';
 
   vm.highlight = null;
   vm.map = mapService.getMap();
+  vm.text = textService.getTexts($location.search().lang || 'pl');
   vm.version = versionService.getVersion();
 
   vm.uploadExtra = uploadExtra;

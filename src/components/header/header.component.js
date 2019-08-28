@@ -14,12 +14,14 @@ function controller(
   $timeout,
   dataService,
   mapService,
+  textService,
   versionService) {
   const vm = this;
   const map = mapService.getMap();
 
   vm.searchInput = null;
   vm.searchResults = null;
+  vm.text = textService.getTexts();
 
   vm.changeVersion = changeVersion;
   vm.clearSearch = clearSearch;

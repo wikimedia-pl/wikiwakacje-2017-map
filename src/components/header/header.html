@@ -2,7 +2,7 @@
   <div class="md-toolbar-tools"
         layout="row" layout-align="center center">
     <a href="http://wikiwakacje.pl">
-      <img class="ww-header__logo" hide-xs
+      <img class="ww-header__logo"
             src="assets/images/logo.png" alt="Wikiwakacje">
     </a>
     <h2 class="ww-header__title" hide-xs>
@@ -11,7 +11,7 @@
     <span flex></span>
     <input class="ww-header__search" flex="66" flex-xs="100"
       type="text"
-      placeholder="Wpisz miejscowość, np. Wrocław"
+      placeholder="{{ ::$ctrl.text.SEARCH_PLACEHOLDER }}"
       ng-model="$ctrl.searchInput"
       ng-change="$ctrl.search()"
       ng-focus="$ctrl.search()"
@@ -37,16 +37,16 @@
   <md-button class="ww-header__button ww-header__button--nature" flex="33"
               ng-click="$ctrl.changeVersion('nature')">
     <md-icon hide-xs>cloud</md-icon>
-    <span>Przyroda</span>
+    <span>{{ ::$ctrl.text.HEADER_NATURE }}</span>
   </md-button>
   <md-button class="ww-header__button ww-header__button--monuments" flex="33"
               ng-click="$ctrl.changeVersion('monuments')">
     <md-icon hide-xs>account_balance</md-icon>
-    <span>Zabytki</span>
+    <span>{{ ::$ctrl.text.HEADER_MONUMENTS }}</span>
   </md-button>
   <md-button class="ww-header__button ww-header__button--art" flex="33"
               ng-click="$ctrl.changeVersion('art')">
     <md-icon hide-xs>extension</md-icon>
-    <span>Sztuka</span>
+    <span>{{ ::$ctrl.text.HEADER_ART }}</span>
   </md-button>
 </md-toolbar>

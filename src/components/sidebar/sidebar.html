@@ -13,19 +13,19 @@
           layout="column" layout-align="center center"
           ng-show="$ctrl.map.center.zoom < 12">
       <md-icon>info_outline</md-icon>
-      <span class="md-headline">Przybliż mapę, aby pobrać obiekty</span>
+      <span class="md-headline">{{ ::$ctrl.text.SIDEBAR_ZOOM_IN }}</span>
     </div>
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
           ng-show="$ctrl.version === 'nature' && $ctrl.map.center.zoom >= 12">
       <md-icon>warning</md-icon>
-      <span class="md-headline">Kliknij na mapę aby pobrać obiekty</span>
+      <span class="md-headline">{{ ::$ctrl.text.SIDEBAR_CLICK_MAP_TO_GET }}</span>
     </div>
     <div class="ww-sidebar-info"
           layout="column" layout-align="center center"
           ng-show="($ctrl.cards && !$ctrl.cards.length) && $ctrl.map.center.zoom >= 12 && !$ctrl.loading.active">
       <md-icon>warning</md-icon>
-      <span class="md-headline">Brak obiektów na tym obszarze</span>
+      <span class="md-headline">{{ ::$ctrl.text.SIDEBAR_NO_OBJECTS }}</span>
     </div>
     <div ng-show="$ctrl.map.center.zoom >= 12" flex
           layout="column" layout-align="start stretch">
@@ -34,19 +34,19 @@
           <ww-card class="ww-card-container"
                 ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
                 data-id="{{card.id}}"
-                data="card"></ww-card>
+                data="card" text="$ctrl.text"></ww-card>
         </div>
       </md-virtual-repeat-container>
       <md-button class="ww-card__upload-extra" ng-click="$ctrl.uploadExtra()">
         <md-icon>file_upload</md-icon>
-        Prześlij zdjęcie obiektu spoza listy
+        {{ ::$ctrl.text.SIDEBAR_IMAGE_OUT_OF_LIST }}
       </md-button>
     </div>
   </div>
   <md-list class="ww-sidebar-options"
       ng-if="$ctrl.version !== 'nature'">
     <md-list-item>
-      <p>Szukaj podczas przesuwania mapy</p>
+      <p>{{ ::$ctrl.text.SIDEBAR_DRAG_SEARCH }}</p>
       <md-switch ng-model="$ctrl.loading.dragSearch" aria-label="Switch"></md-switch>
     </md-list-item>
   </md-list>

@@ -64,7 +64,8 @@ function controller(
     });
 
     $scope.$on('centerUrlHash', (event, centerHash) => {
-      $location.search({ c: centerHash });
+      const old = $location.search();
+      $location.search(angular.extend(old, { c: centerHash }));
     });
 
     const changeVersionListener = $rootScope.$on('changeVersion', () => {

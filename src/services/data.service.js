@@ -50,7 +50,7 @@ const DataService = (
   function getCity(name) {
     return $http({
       method: 'GET',
-      url: 'http://nominatim.openstreetmap.org/search',
+      url: 'https://nominatim.openstreetmap.org/search',
       params: {
         format: 'json',
         countrycodes: 'pl',

@@ -8,14 +8,17 @@ const MainComponent = {
 };
 
 function controller(
+  $location,
   $rootScope,
   $scope,
   $timeout,
+  textService,
   versionService) {
   const vm = this;
 
   vm.cards = null;
   vm.loading = {};
+  vm.text = textService.getTexts();
 
   // init
 

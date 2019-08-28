@@ -2,7 +2,10 @@ import './card.scss';
 import template from './card.html';
 
 const CardComponent = {
-  bindings: { data: '=' },
+  bindings: {
+    data: '=',
+    text: '=',
+  },
   controller,
   template,
 };
@@ -17,54 +20,52 @@ function controller(
   const uploadUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=';
 
   vm.map = mapService.getMap();
-  vm.version = versionService.getVersion();
 
   vm.showNatureDetails = showNatureDetails;
   vm.showOnMap = showOnMap;
   vm.upload = upload;
+  vm.version = () => versionService.getVersion();
 
   vm.artTypes = {
-    wayside_shrine: 'kapliczka',
-    memorial: 'pomnik',
-    monument: 'pomnik',
-    cross: 'krzyż przydrożny',
-    artwork: 'dzieło sztuki',
+    wayside_shrine: 'CARD_WAYSIDE_SHRINE',
+    memorial: 'CARD_MEMORIAL',
+    monument: 'CARD_MONUMENT',
+    cross: 'CARD_WAYSIDE_CROSS',
+    artwork: 'CARD_ARTWORK',
   };
 
   vm.natureTypes = {
-    Rezerwaty: 'rezerwat przyrody',
-    ParkiKrajobrazowe: 'park krajobrazowy',
-    ObszarySpecjalnejOchrony: 'obszar specjalnej ochrony ptaków',
-    SpecjalneObszaryOchrony: 'specjalny obszar ochrony siedlisk',
-    ParkiNarodowe: 'park narodowy',
-    ZespolyPrzyrodniczoKrajobrazowe: 'zespół przyrodniczo-krajobrazowy',
-    PomnikiPrzyrody: 'pomnik przyrody',
+    Rezerwaty: 'CARD_NATURE_RESERVE',
+    ParkiKrajobrazowe: 'CARD_LANDSCAPE_PARK',
+    ObszarySpecjalnejOchrony: 'CARD_1',
+    SpecjalneObszaryOchrony: 'CARD_2',
+    ParkiNarodowe: 'CARD_NATIONAL_PARK',
+    ZespolyPrzyrodniczoKrajobrazowe: 'CARD_3',
+    PomnikiPrzyrody: 'CARD_NATURE_MONUMENT',
   };
 
   // init
 
-  vm.$onInit = () => {
-    // fix for monuments
-    // vm.data.name_ = dewikify(vm.data.name);
-    // vm.data.address_ = dewikify(vm.data.address);
-
+  vm.artType = () => {
     // fix for art
     if (vm.data.tags) {
       const tag = vm.data.tags.historic || vm.data.tags.man_made || vm.data.tags.tourism;
-      vm.data.type = tag ? vm.artTypes[tag] : '?';
+      return tag ? vm.artTypes[tag] : '?';
     }
+    return '';
   };
 
   // functions
 
   function getArtCategory() {
     const names = {
-      kapliczka: 'Wayside shrines in Poland',
-      pomnik: 'Monuments and memorials in Poland',
-      'krzyż przydrożny': 'Wayside crosses in Poland',
-      'dzieło sztuki': 'Sculptures in Poland',
+      CARD_WAYSIDE_SHRINE: 'Wayside shrines in Poland',
+      CARD_MEMORIAL: 'Monuments and memorials in Poland',
+      CARD_MONUMENT: 'Monuments and memorials in Poland',
+      CARD_WAYSIDE_CROSS: 'Wayside crosses in Poland',
+      CARD_ARTWORK: 'Sculptures in Poland',
     };
-    return names[vm.data.type];
+    return names[vm.artType()] || '';
   }
 
   function getNatureCategory() {
@@ -97,13 +98,13 @@ function controller(
 
     let url = uploadUrl;
     url += 'wikiwakacje-z&descriptionlang=pl';
-    url += `&description=${description}&categories=${category}&id=${vm.data.id}`;
+    url += `&description=${description}&categories=${category}&id=Q${vm.data.id}`;
     url += `&lat=${vm.data.lat}&lon=${vm.data.lon}`;
     return url;
   }
 
   function getNatureUploadUrl() {
-    const type = vm.natureTypes[vm.data.type];
+    const type = vm.text[vm.natureTypes[vm.data.type]];
     const description = `${type[0].toUpperCase()}${type.substring(1)}: ${vm.data.name}`;
     const category = getNatureCategory();
 
@@ -129,11 +130,11 @@ function controller(
 
   function upload() {
     let url = null;
-    if (vm.version === 'monuments') {
+    if (vm.version() === 'monuments') {
       url = getMonumentUploadUrl();
-    } else if (vm.version === 'nature') {
+    } else if (vm.version() === 'nature') {
       url = getNatureUploadUrl();
-    } else if (vm.version === 'art') {
+    } else if (vm.version() === 'art') {
       url = getArtUploadUrl();
     }
     $window.open(url, '_blank');

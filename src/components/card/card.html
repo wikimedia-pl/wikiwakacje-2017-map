@@ -1,6 +1,6 @@
 <md-card class="ww-card"
-          ng-class="{ 'ww-card--link' : $ctrl.version === 'monuments' || $ctrl.version === 'art' }"
-          ng-click="($ctrl.version === 'monuments' || $ctrl.version === 'art') ? $ctrl.showOnMap() : false">
+          ng-class="{ 'ww-card--link' : $ctrl.version() === 'monuments' || $ctrl.version() === 'art' }"
+          ng-click="($ctrl.version() === 'monuments' || $ctrl.version() === 'art') ? $ctrl.showOnMap() : false">
   <div layout="row" layout-align="start stretch">
     <md-card-title-media class="ww-card__image"
         layout="column" layout-align="center center" flex="none">
@@ -19,18 +19,18 @@
 
       <md-card-title-text flex
           layout="column" layout-align="start start"
-          ng-if="$ctrl.version === 'art'">
+          ng-if="$ctrl.version() === 'art'">
         <span class="ww-card__title">
-          {{ $ctrl.data.tags.name || 'brak nazwy' }}
+          {{ $ctrl.data.tags.name || $ctrl.text.CARD_NO_NAME }}
         </span>
         <span class="md-subhead">
-          {{ $ctrl.data.type }}
+          {{ $ctrl.text[$ctrl.artType()] }}
         </span>
       </md-card-title-text>
 
       <md-card-title-text flex
           layout="column" layout-align="start start"
-          ng-if="$ctrl.version === 'monuments'">
+          ng-if="$ctrl.version() === 'monuments'">
         <span class="ww-card__title">
           {{ $ctrl.data.name }}
         </span>
@@ -41,12 +41,12 @@
 
       <md-card-title-text flex
           layout="column" layout-align="start start"
-          ng-if="$ctrl.version === 'nature'">
+          ng-if="$ctrl.version() === 'nature'">
         <span class="ww-card__title">
           {{ $ctrl.data.name }}
         </span>
         <span class="md-subhead">
-          {{ $ctrl.natureTypes[$ctrl.data.type] }}
+          {{ $ctrl.text[$ctrl.natureTypes[$ctrl.data.type]] }}
         </span>
         <small>(ID: {{ $ctrl.data.id || "?" }})</small>
       </md-card-title-text>
@@ -54,18 +54,18 @@
       <div layout="row" layout-align="end start">
         <md-button class="ww-card__more"
                     ng-click="$ctrl.showNatureDetails($ctrl.data); $event.stopPropagation()"
-                    ng-if="$ctrl.version === 'nature' && $ctrl.data.id">
-          Więcej informacji
+                    ng-if="$ctrl.version() === 'nature' && $ctrl.data.id">
+          {{ ::$ctrl.text.CARD_MORE_INFO }}
         </md-button>
         <md-button class="ww-card__more"
                     ng-href="//www.wikidata.org/wiki/Q{{ $ctrl.data.id }}?uselang=pl" target="_blank"
-                    ng-if="$ctrl.version === 'monuments' && $ctrl.data.id">
-          Więcej informacji
+                    ng-if="$ctrl.version() === 'monuments' && $ctrl.data.id">
+          {{ ::$ctrl.text.CARD_MORE_INFO }}
         </md-button>
         <md-button class="ww-card__upload"
                     ng-click="$ctrl.upload(); $event.stopPropagation()">
           <md-icon>file_upload</md-icon>
-          Prześlij
+          {{ ::$ctrl.text.CARD_UPLOAD }}
         </md-button>
       </div>
 
