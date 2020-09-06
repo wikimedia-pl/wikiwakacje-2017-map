@@ -60,9 +60,7 @@ function controller(
 
   function uploadExtra() {
     const campaigns = {
-      monuments: "wlm-pl",
-      nature: "wikiwakacje-n",
-      art: "wikiwakacje-s"
+      monuments: "wlm-pl"
     };
     const url = `${uploadUrl}${campaigns[vm.version]}`;
     $window.open(url, "_blank");
