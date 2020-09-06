@@ -1,19 +1,19 @@
-import L from 'leaflet';
+import L from "leaflet";
 
-import '../images/marker-blue.png';
-import '../images/marker-violet.png';
-import '../images/marker-shadow.png';
+import "../images/marker-blue.png";
+import "../images/marker-violet.png";
+import "../images/marker-shadow.png";
 
-const gdosApiUrl = 'http://sdi.gdos.gov.pl/wms';
+const gdosApiUrl = "http://sdi.gdos.gov.pl/wms";
 
-const MapService = (versionService) => {
+const MapService = versionService => {
   const map = getMapInstance({ forceMapState: false });
 
   const service = {
     clearMarkers,
     getMap: () => map,
     getMapIcon,
-    showNature,
+    showNature
   };
 
   return service;
@@ -27,115 +27,123 @@ const MapService = (versionService) => {
   }
 
   function getMapIcon(options) {
-    const iconUrl = `assets/images/marker-${options && options.type ? 'violet' : 'blue'}.png`;
+    const iconUrl = `assets/images/marker-${
+      options && options.type ? "violet" : "blue"
+    }.png`;
     return {
       iconUrl,
-      shadowUrl: 'assets/images/marker-shadow.png',
+      shadowUrl: "assets/images/marker-shadow.png",
       iconSize: [29, 41],
       shadowSize: [41, 41],
       iconAnchor: [15, 41],
       shadowAnchor: [12, 41],
-      popupAnchor: [0, -43],
+      popupAnchor: [0, -43]
     };
   }
 
   function getMapInstance(options) {
-    return angular.extend({
-      markersWatchOptions: {
-        doWatch: true,
-        isDeep: false,
-        individual: {
-          doWatch: false,
+    return angular.extend(
+      {
+        markersWatchOptions: {
+          doWatch: true,
           isDeep: false,
+          individual: {
+            doWatch: false,
+            isDeep: false
+          }
         },
-      },
-      center: {
-        lat: 52.093,
-        lng: 19.468,
-        zoom: 6,
-      },
-      markers: {},
-      highlight: null,
-      events: {
-        map: {
-          enable: ['dragend', 'zoomend', 'click'],
-          logic: 'emit',
+        center: {
+          lat: 52.093,
+          lng: 19.468,
+          zoom: 6
         },
-        markers: {
-          enable: ['click', 'mouseover', 'mouseout'],
-        },
-      },
-      layers: {
-        baselayers: {
-          wiki: {
-            name: 'Wikimedia Maps',
-            type: 'xyz',
-            url: '//maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
-            layerOptions: {
-              subdomains: ['a', 'b', 'c'],
-              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-              continuousWorld: true,
-              maxNativeZoom: 18,
-              maxZoom: 21,
-            },
+        markers: {},
+        highlight: null,
+        events: {
+          map: {
+            enable: ["dragend", "zoomend", "click"],
+            logic: "emit"
           },
-          osm: {
-            name: 'OpenStreetMap',
-            type: 'xyz',
-            url: '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            layerOptions: {
-              subdomains: ['a', 'b', 'c'],
-              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-              continuousWorld: false,
-              maxNativeZoom: 19,
-              maxZoom: 21,
-            },
-          },
+          markers: {
+            enable: ["click", "mouseover", "mouseout"]
+          }
         },
-        overlays: {
-          pins: {
-            name: 'Markers',
-            type: 'markercluster',
-            visible: true,
-            layerOptions: {
-              showCoverageOnHover: false,
-              zoomToBoundsOnClick: true,
-              maxClusterRadius: zoom => 130 - (zoom * 5),
-              animate: false,
-              iconCreateFunction: (cluster) => {
-                const version = versionService.getVersion();
-                return new L.DivIcon({
-                  html: `<div><span>${cluster.getChildCount()}</span></div>`,
-                  className: `marker-cluster marker-cluster-small marker-cluster--${version}`,
-                  iconSize: new L.Point(40, 40),
-                });
-              },
+        layers: {
+          baselayers: {
+            wiki: {
+              name: "Wikimedia Maps",
+              type: "xyz",
+              url: "//maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png",
+              layerOptions: {
+                subdomains: ["a", "b", "c"],
+                attribution:
+                  '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                continuousWorld: true,
+                maxNativeZoom: 18,
+                maxZoom: 21
+              }
             },
+            osm: {
+              name: "OpenStreetMap",
+              type: "xyz",
+              url: "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              layerOptions: {
+                subdomains: ["a", "b", "c"],
+                attribution:
+                  '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                continuousWorld: false,
+                maxNativeZoom: 19,
+                maxZoom: 21
+              }
+            }
           },
-          gdos: {
-            name: 'GDOŚ',
-            type: 'wms',
-            url: gdosApiUrl,
-            visible: false,
-            layerOptions: {
-              layers: [
-                'ObszarySpecjalnejOchrony',
-                'ParkiKrajobrazowe',
-                'ParkiNarodowe',
-                'PomnikiPrzyrody',
-                'Rezerwaty',
-                'SpecjalneObszaryOchrony',
-                'ZespolyPrzyrodniczoKrajobrazowe',
-              ].join(','),
-              format: 'image/png',
-              styles: 'soo$1$3,oso$1$3,zespoly$1$3,pn$1$3,pk$1$3,rez$1$3,pp$1$3',
-              transparent: true,
-              attribution: 'Generalna Dyrekcja Ochrony Środowiska',
+          overlays: {
+            pins: {
+              name: "Markers",
+              type: "markercluster",
+              visible: true,
+              layerOptions: {
+                showCoverageOnHover: false,
+                zoomToBoundsOnClick: true,
+                maxClusterRadius: zoom => 130 - zoom * 5,
+                animate: false,
+                iconCreateFunction: cluster => {
+                  const version = versionService.getVersion();
+                  return new L.DivIcon({
+                    html: `<div><span>${cluster.getChildCount()}</span></div>`,
+                    className: `marker-cluster marker-cluster-small marker-cluster--${version}`,
+                    iconSize: new L.Point(40, 40)
+                  });
+                }
+              }
             },
-          },
-        },
+            gdos: {
+              name: "GDOŚ",
+              type: "wms",
+              url: gdosApiUrl,
+              visible: false,
+              layerOptions: {
+                layers: [
+                  "ObszarySpecjalnejOchrony",
+                  "ParkiKrajobrazowe",
+                  "ParkiNarodowe",
+                  "PomnikiPrzyrody",
+                  "Rezerwaty",
+                  "SpecjalneObszaryOchrony",
+                  "ZespolyPrzyrodniczoKrajobrazowe"
+                ].join(","),
+                format: "image/png",
+                styles:
+                  "soo$1$3,oso$1$3,zespoly$1$3,pn$1$3,pk$1$3,rez$1$3,pp$1$3",
+                transparent: true,
+                attribution: "Generalna Dyrekcja Ochrony Środowiska"
+              }
+            }
+          }
+        }
       },
-    }, options);
+      options
+    );
   }
 
   function showNature(flag) {
@@ -144,7 +152,5 @@ const MapService = (versionService) => {
 };
 
 export default () => {
-  angular
-    .module('app')
-    .factory('mapService', MapService);
+  angular.module("app").factory("mapService", MapService);
 };

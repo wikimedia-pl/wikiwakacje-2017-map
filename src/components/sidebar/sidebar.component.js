@@ -1,13 +1,13 @@
-import './sidebar.scss';
-import template from './sidebar.html';
+import "./sidebar.scss";
+import template from "./sidebar.html";
 
 const SidebarComponent = {
   bindings: {
-    cards: '=',
-    loading: '=',
+    cards: "=",
+    loading: "="
   },
   controller,
-  template,
+  template
 };
 
 function controller(
@@ -17,13 +17,15 @@ function controller(
   $window,
   mapService,
   textService,
-  versionService) {
+  versionService
+) {
   const vm = this;
-  const uploadUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=';
+  const uploadUrl =
+    "https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=";
 
   vm.highlight = null;
   vm.map = mapService.getMap();
-  vm.text = textService.getTexts($location.search().lang || 'pl');
+  vm.text = textService.getTexts($location.search().lang || "pl");
   vm.version = versionService.getVersion();
 
   vm.uploadExtra = uploadExtra;
@@ -31,18 +33,23 @@ function controller(
   // init
 
   vm.$onInit = () => {
-    $scope.$watch(() => vm.map.highlight, (item) => {
-      if (!item) { return; }
-      const selectedItem = vm.cards.filter(card => card.id === item.id)[0];
-      vm.highlight = selectedItem.id;
-      if (!item.stopScroll) {
-        scrollToId(selectedItem);
+    $scope.$watch(
+      () => vm.map.highlight,
+      item => {
+        if (!item) {
+          return;
+        }
+        const selectedItem = vm.cards.filter(card => card.id === item.id)[0];
+        vm.highlight = selectedItem.id;
+        if (!item.stopScroll) {
+          scrollToId(selectedItem);
+        }
       }
-    });
-    const changeVersionListener = $rootScope.$on('changeVersion', () => {
+    );
+    const changeVersionListener = $rootScope.$on("changeVersion", () => {
       vm.version = versionService.getVersion();
     });
-    $scope.$on('$destroy', () => changeVersionListener());
+    $scope.$on("$destroy", () => changeVersionListener());
   };
 
   // functions
@@ -53,17 +60,15 @@ function controller(
 
   function uploadExtra() {
     const campaigns = {
-      monuments: 'wlm-pl',
-      nature: 'wikiwakacje-n',
-      art: 'wikiwakacje-s',
+      monuments: "wlm-pl",
+      nature: "wikiwakacje-n",
+      art: "wikiwakacje-s"
     };
     const url = `${uploadUrl}${campaigns[vm.version]}`;
-    $window.open(url, '_blank');
+    $window.open(url, "_blank");
   }
 }
 
 export default () => {
-  angular
-    .module('app')
-    .component('wwSidebar', SidebarComponent);
+  angular.module("app").component("wwSidebar", SidebarComponent);
 };

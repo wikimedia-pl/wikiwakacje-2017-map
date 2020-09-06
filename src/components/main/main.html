@@ -1,23 +1,37 @@
 <ww-header></ww-header>
 
-<div class="ww-container"
-      layout="row" layout-align="center stretch"
-      layout-xs="column" layout-align-xs="start stretch"
-      ng-if="!$ctrl.loading.map">
-  <ww-sidebar flex="33" flex-xs="30" flex-order-xs="2"
-      cards="$ctrl.cards"
-      loading="$ctrl.loading"></ww-sidebar>
-  <ww-map flex flex-order-xs="1"
-      layout="column"
-      ng-if="!$ctrl.loading.map"
-      cards="$ctrl.cards"
-      loading="$ctrl.loading"></ww-map>
+<div
+  class="ww-container"
+  layout="row"
+  layout-align="center stretch"
+  layout-xs="column"
+  layout-align-xs="start stretch"
+  ng-if="!$ctrl.loading.map"
+>
+  <ww-sidebar
+    flex="33"
+    flex-xs="30"
+    flex-order-xs="2"
+    cards="$ctrl.cards"
+    loading="$ctrl.loading"
+  ></ww-sidebar>
+  <ww-map
+    flex
+    flex-order-xs="1"
+    layout="column"
+    ng-if="!$ctrl.loading.map"
+    cards="$ctrl.cards"
+    loading="$ctrl.loading"
+  ></ww-map>
 </div>
 
-<div class="ww-container" layout="row"
-       ng-if="$ctrl.loading.map">
-  <div class="ww-container__map--loading"
-      layout="column" layout-align="center center" flex>
+<div class="ww-container" layout="row" ng-if="$ctrl.loading.map">
+  <div
+    class="ww-container__map--loading"
+    layout="column"
+    layout-align="center center"
+    flex
+  >
     <div class="cssload-container">
       <div class="cssload-speeding-wheel"></div>
     </div>

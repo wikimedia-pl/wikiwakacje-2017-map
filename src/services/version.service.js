@@ -1,9 +1,9 @@
 const VersionService = () => {
-  let version = 'monuments';
+  let version = "monuments";
 
   const service = {
     getVersion,
-    setVersion,
+    setVersion
   };
   return service;
 
@@ -19,7 +19,5 @@ const VersionService = () => {
 };
 
 export default () => {
-  angular
-    .module('app')
-    .factory('versionService', VersionService);
+  angular.module("app").factory("versionService", VersionService);
 };

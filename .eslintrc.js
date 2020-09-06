@@ -1,9 +1,8 @@
 module.exports = {
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module"
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: "module"
   },
-  "extends": ["airbnb", "angular"],
-  "rules": {
-  }
-}
+  extends: ["airbnb", "angular", "prettier"],
+  rules: {}
+};

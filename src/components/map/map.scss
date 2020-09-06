@@ -23,7 +23,8 @@ ww-map {
     }
   }
 
-  .leaflet-top, .leaflet-bottom {
+  .leaflet-top,
+  .leaflet-bottom {
     z-index: 500;
     .leaflet-control-zoom.leaflet-bar {
       border-radius: 0;

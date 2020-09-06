@@ -1,40 +1,59 @@
-<div class="ww-sidebar"
-      layout="column" layout-align="start center">
-  <div class="ww-cards--loading"
-        layout="column" layout-align="center center"
-        ng-show="$ctrl.loading.active">
+<div class="ww-sidebar" layout="column" layout-align="start center">
+  <div
+    class="ww-cards--loading"
+    layout="column"
+    layout-align="center center"
+    ng-show="$ctrl.loading.active"
+  >
     <div class="cssload-container">
       <div class="cssload-speeding-wheel"></div>
     </div>
   </div>
-  <div class="ww-cards"
-        layout="column" layout-align="start stretch">
-    <div class="ww-sidebar-info"
-          layout="column" layout-align="center center"
-          ng-show="$ctrl.map.center.zoom < 12">
+  <div class="ww-cards" layout="column" layout-align="start stretch">
+    <div
+      class="ww-sidebar-info"
+      layout="column"
+      layout-align="center center"
+      ng-show="$ctrl.map.center.zoom < 12"
+    >
       <md-icon>info_outline</md-icon>
       <span class="md-headline">{{ ::$ctrl.text.SIDEBAR_ZOOM_IN }}</span>
     </div>
-    <div class="ww-sidebar-info"
-          layout="column" layout-align="center center"
-          ng-show="$ctrl.version === 'nature' && $ctrl.map.center.zoom >= 12">
+    <div
+      class="ww-sidebar-info"
+      layout="column"
+      layout-align="center center"
+      ng-show="$ctrl.version === 'nature' && $ctrl.map.center.zoom >= 12"
+    >
       <md-icon>warning</md-icon>
-      <span class="md-headline">{{ ::$ctrl.text.SIDEBAR_CLICK_MAP_TO_GET }}</span>
+      <span class="md-headline"
+        >{{ ::$ctrl.text.SIDEBAR_CLICK_MAP_TO_GET }}</span
+      >
     </div>
-    <div class="ww-sidebar-info"
-          layout="column" layout-align="center center"
-          ng-show="($ctrl.cards && !$ctrl.cards.length) && $ctrl.map.center.zoom >= 12 && !$ctrl.loading.active">
+    <div
+      class="ww-sidebar-info"
+      layout="column"
+      layout-align="center center"
+      ng-show="($ctrl.cards && !$ctrl.cards.length) && $ctrl.map.center.zoom >= 12 && !$ctrl.loading.active"
+    >
       <md-icon>warning</md-icon>
       <span class="md-headline">{{ ::$ctrl.text.SIDEBAR_NO_OBJECTS }}</span>
     </div>
-    <div ng-show="$ctrl.map.center.zoom >= 12" flex
-          layout="column" layout-align="start stretch">
+    <div
+      ng-show="$ctrl.map.center.zoom >= 12"
+      flex
+      layout="column"
+      layout-align="start stretch"
+    >
       <md-virtual-repeat-container md-top-index="$ctrl.topIndex" flex>
         <div md-virtual-repeat="card in $ctrl.cards">
-          <ww-card class="ww-card-container"
-                ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
-                data-id="{{card.id}}"
-                data="card" text="$ctrl.text"></ww-card>
+          <ww-card
+            class="ww-card-container"
+            ng-class="$ctrl.highlight == card.id ? 'ww-card-active' : 'ww-card-inactive'"
+            data-id="{{card.id}}"
+            data="card"
+            text="$ctrl.text"
+          ></ww-card>
         </div>
       </md-virtual-repeat-container>
       <md-button class="ww-card__upload-extra" ng-click="$ctrl.uploadExtra()">
@@ -43,11 +62,13 @@
       </md-button>
     </div>
   </div>
-  <md-list class="ww-sidebar-options"
-      ng-if="$ctrl.version !== 'nature'">
+  <md-list class="ww-sidebar-options" ng-if="$ctrl.version !== 'nature'">
     <md-list-item>
       <p>{{ ::$ctrl.text.SIDEBAR_DRAG_SEARCH }}</p>
-      <md-switch ng-model="$ctrl.loading.dragSearch" aria-label="Switch"></md-switch>
+      <md-switch
+        ng-model="$ctrl.loading.dragSearch"
+        aria-label="Switch"
+      ></md-switch>
     </md-list-item>
   </md-list>
 </div>

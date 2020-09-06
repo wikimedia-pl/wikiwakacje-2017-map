@@ -1,29 +1,36 @@
-var path = require('path');
-var webpack = require('webpack');
+var path = require("path");
+var webpack = require("webpack");
 
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var ngAnnotatePlugin = require("ng-annotate-webpack-plugin");
 
-var package = require('./package.json');
+var package = require("./package.json");
 
 var config = {
-  context: path.join(__dirname, 'src'),
-  entry: ['babel-polyfill', './index.js'],
+  context: path.join(__dirname, "src"),
+  entry: ["babel-polyfill", "./index.js"],
   output: {
-    path: path.join(__dirname, 'app', 'assets'),
-    publicPath: 'assets/',
-    filename: 'bundle.js?v=' + package.version
+    path: path.join(__dirname, "app", "assets"),
+    publicPath: "assets/",
+    filename: "bundle.js?v=" + package.version
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html.ejs',
-      filename: path.join('..', 'index.html')
+      template: "index.html.ejs",
+      filename: path.join("..", "index.html")
     }),
     function () {
-      this.plugin('watch-run', function (watching, callback) {
-        console.log('\n\n---- ' + new Date().toISOString().replace('T', ' ').replace(/\.[0-9]+Z/, '') + ' ----\n');
+      this.plugin("watch-run", function (watching, callback) {
+        console.log(
+          "\n\n---- " +
+            new Date()
+              .toISOString()
+              .replace("T", " ")
+              .replace(/\.[0-9]+Z/, "") +
+            " ----\n"
+        );
         callback();
-      })
+      });
     }
   ],
   module: {
@@ -31,52 +38,56 @@ var config = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: "babel",
         query: {
-          plugins: ['transform-runtime'],
-          presets: ['es2015', 'stage-2']
+          plugins: ["transform-runtime"],
+          presets: ["es2015", "stage-2"]
         }
       },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'ng-annotate',
+        loader: "ng-annotate"
       },
       {
-        test: /\.html?$/, loader: 'raw'
+        test: /\.html?$/,
+        loader: "raw"
       },
       {
-        test: /\.css$/, loader: 'style!css'
+        test: /\.css$/,
+        loader: "style!css"
       },
       {
-        test: /\.scss$/, loader: 'style!css!sass'
+        test: /\.scss$/,
+        loader: "style!css!sass"
       },
       {
         test: /\.(woff|woff2|ttf|eot)$/,
-        loader: 'file?name=fonts/[name].[ext]'
+        loader: "file?name=fonts/[name].[ext]"
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: 'file?name=images/[name].[ext]'
+        loader: "file?name=images/[name].[ext]"
       },
       {
-        test: /\.json$/, loader: 'json'
+        test: /\.json$/,
+        loader: "json"
       }
     ]
   }
 };
 
 var ENV = process.env.NODE_ENV;
-if (ENV === 'prod' || ENV === 'dev') {
+if (ENV === "prod" || ENV === "dev") {
   config.output = {
-    path: path.join(__dirname, 'app', 'assets'),
-    publicPath: 'assets/',
-    filename: 'bundle.min.js?v=' + package.version
+    path: path.join(__dirname, "app", "assets"),
+    publicPath: "assets/",
+    filename: "bundle.min.js?v=" + package.version
   };
   config.plugins = [
     new HtmlWebpackPlugin({
-      template: 'index.html.ejs',
-      filename: path.join('..', 'index.html')
+      template: "index.html.ejs",
+      filename: path.join("..", "index.html")
     }),
     new ngAnnotatePlugin({
       add: true

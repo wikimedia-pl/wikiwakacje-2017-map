@@ -1,12 +1,12 @@
-import '../../images/logo.png';
+import "../../images/logo.png";
 
-import './header.scss';
-import template from './header.html';
+import "./header.scss";
+import template from "./header.html";
 
 const HeaderComponent = {
   bindings: {},
   controller,
-  template,
+  template
 };
 
 function controller(
@@ -15,7 +15,8 @@ function controller(
   dataService,
   mapService,
   textService,
-  versionService) {
+  versionService
+) {
   const vm = this;
   const map = mapService.getMap();
 
@@ -32,7 +33,7 @@ function controller(
 
   function changeVersion(version) {
     versionService.setVersion(version);
-    $rootScope.$emit('changeVersion');
+    $rootScope.$emit("changeVersion");
   }
 
   function clearSearch() {
@@ -45,14 +46,14 @@ function controller(
       vm.searchResults = null;
       return;
     }
-    dataService.getCity(vm.searchInput).then((data) => {
-      vm.searchResults = data.data.map((result) => {
-        const name = result.display_name.split(', ')[0];
+    dataService.getCity(vm.searchInput).then(data => {
+      vm.searchResults = data.data.map(result => {
+        const name = result.display_name.split(", ")[0];
         return {
           name,
           details: result.display_name.substring(name.length + 1),
           lat: result.lat,
-          lon: result.lon,
+          lon: result.lon
         };
       });
     });
@@ -62,14 +63,12 @@ function controller(
     map.center = {
       lat: parseFloat(place.lat),
       lng: parseFloat(place.lon),
-      zoom: 14,
+      zoom: 14
     };
     vm.searchResults = null;
   }
 }
 
 export default () => {
-  angular
-    .module('app')
-    .component('wwHeader', HeaderComponent);
+  angular.module("app").component("wwHeader", HeaderComponent);
 };

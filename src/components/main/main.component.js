@@ -1,10 +1,10 @@
-import './main.scss';
-import template from './main.html';
+import "./main.scss";
+import template from "./main.html";
 
 const MainComponent = {
   bindings: {},
   controller,
-  template,
+  template
 };
 
 function controller(
@@ -13,7 +13,8 @@ function controller(
   $scope,
   $timeout,
   textService,
-  versionService) {
+  versionService
+) {
   const vm = this;
 
   vm.cards = null;
@@ -26,21 +27,21 @@ function controller(
     vm.loading = {
       active: 0,
       map: true,
-      dragSearch: true,
+      dragSearch: true
     };
 
-    versionService.setVersion('monuments');
-    $timeout(() => { vm.loading.map = false; }, 2000);
+    versionService.setVersion("monuments");
+    $timeout(() => {
+      vm.loading.map = false;
+    }, 2000);
 
-    const changeVersionListener = $rootScope.$on('changeVersion', () => {
+    const changeVersionListener = $rootScope.$on("changeVersion", () => {
       vm.cards = null;
     });
-    $scope.$on('$destroy', () => changeVersionListener());
+    $scope.$on("$destroy", () => changeVersionListener());
   };
 }
 
 export default () => {
-  angular
-    .module('app')
-    .component('wwMain', MainComponent);
+  angular.module("app").component("wwMain", MainComponent);
 };

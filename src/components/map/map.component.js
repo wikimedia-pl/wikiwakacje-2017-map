@@ -1,13 +1,13 @@
-import './map.scss';
-import template from './map.html';
+import "./map.scss";
+import template from "./map.html";
 
 const MapComponent = {
   bindings: {
-    loading: '=',
-    cards: '=',
+    loading: "=",
+    cards: "="
   },
   controller,
-  template,
+  template
 };
 
 function controller(
@@ -20,10 +20,11 @@ function controller(
   dataService,
   leafletData,
   mapService,
-  versionService) {
+  versionService
+) {
   const vm = this;
   let canceler = $q.defer();
-  let version = 'monuments';
+  let version = "monuments";
 
   vm.dragSearch = true;
   vm.events = {};
@@ -39,47 +40,51 @@ function controller(
 
     $timeout(() => {
       vm.loading.active -= 1;
-      leafletData.getMap().then((map) => {
+      leafletData.getMap().then(map => {
         map.invalidateSize();
-        map.on('moveend', () => {
+        map.on("moveend", () => {
           if (vm.loading.dragSearch) {
-            $timeout(() => { getObjects(); }, 100);
+            $timeout(() => {
+              getObjects();
+            }, 100);
           }
         });
-        map.on('dragstart zoomstart', () => {
+        map.on("dragstart zoomstart", () => {
           canceler.resolve();
         });
-        map.on('click', (event) => {
-          if (version === 'nature') {
+        map.on("click", event => {
+          if (version === "nature") {
             const coords = event.latlng;
-            $timeout(() => { getNature(coords); });
+            $timeout(() => {
+              getNature(coords);
+            });
           }
         });
       });
       getObjects();
     }, 100);
 
-    $scope.$on('leafletDirectiveMarker.click', (event, args) => {
+    $scope.$on("leafletDirectiveMarker.click", (event, args) => {
       vm.map.highlight = args.model.data;
     });
 
-    $scope.$on('centerUrlHash', (event, centerHash) => {
+    $scope.$on("centerUrlHash", (event, centerHash) => {
       const old = $location.search();
       $location.search(angular.extend(old, { c: centerHash }));
     });
 
-    const changeVersionListener = $rootScope.$on('changeVersion', () => {
+    const changeVersionListener = $rootScope.$on("changeVersion", () => {
       version = versionService.getVersion();
       changeVersion();
     });
-    $scope.$on('$destroy', () => changeVersionListener());
+    $scope.$on("$destroy", () => changeVersionListener());
   };
 
   // functions
 
   function changeVersion() {
     vm.cards = [];
-    const isNature = version === 'nature';
+    const isNature = version === "nature";
     mapService.clearMarkers();
     mapService.showNature(isNature);
     getObjects();
@@ -89,29 +94,29 @@ function controller(
     if (vm.map.center.zoom < 12 || !vm.map.center) {
       vm.cards = [];
       mapService.clearMarkers();
-      vm.map.highlight = '';
+      vm.map.highlight = "";
       return;
     }
 
-    if (version === 'monuments') {
+    if (version === "monuments") {
       getMonuments();
-    } else if (version === 'art') {
+    } else if (version === "art") {
       getArt();
     }
   }
 
   function getNature(coords) {
     vm.loading.active += 1;
-    dataService.getNature(coords).then((data) => {
+    dataService.getNature(coords).then(data => {
       const cards = data.data.map(element => ({
         name: element.info.name || element.info.obiekt,
         id: element.info.kodinspire,
-        type: element.layer,
+        type: element.layer
       }));
 
       vm.cards = cards;
       vm.loading.active -= 1;
-      vm.map.highlight = '';
+      vm.map.highlight = "";
     });
   }
 
@@ -125,21 +130,26 @@ function controller(
     canceler.resolve();
     canceler = $q.defer();
 
-    dataService.getArt(vm.mapBounds, {
-    //  timeout: canceler.promise,
-    }).then((data) => {
-      vm.loading.active -= 1;
-      vm.cards = data.data.elements;
-      mapService.clearMarkers();
-      vm.map.highlight = '';
+    dataService
+      .getArt(vm.mapBounds, {
+        //  timeout: canceler.promise,
+      })
+      .then(
+        data => {
+          vm.loading.active -= 1;
+          vm.cards = data.data.elements;
+          mapService.clearMarkers();
+          vm.map.highlight = "";
 
-      data.data.elements.forEach((element) => {
-        vm.map.markers[element.id] = setMarker(element);
-      });
-    }, () => {
-      vm.loading.active -= 1;
-      vm.cards = [];
-    });
+          data.data.elements.forEach(element => {
+            vm.map.markers[element.id] = setMarker(element);
+          });
+        },
+        () => {
+          vm.loading.active -= 1;
+          vm.cards = [];
+        }
+      );
   }
 
   function getMonuments() {
@@ -152,43 +162,60 @@ function controller(
     canceler.resolve();
     canceler = $q.defer();
 
-    dataService.getMonuments(vm.mapBounds, {
-    //  timeout: canceler.promise,
-    }).then((data) => {
-      vm.loading.active -= 1;
+    dataService
+      .getMonuments(vm.mapBounds, {
+        //  timeout: canceler.promise,
+      })
+      .then(
+        data => {
+          vm.loading.active -= 1;
 
-      const cards = data.data.results.bindings
-        .map((object) => {
-          const coord = object.coord.value
-            .replace('Point(', '').replace(')', '')
-            .split(' ');
+          const cards = data.data.results.bindings
+            .map(object => {
+              const coord = object.coord.value
+                .replace("Point(", "")
+                .replace(")", "")
+                .split(" ");
 
-          return {
-            id: object.item.value.substring(32),
-            name: object.itemLabel ? object.itemLabel.value : undefined,
-            lat: +coord[1],
-            lon: +coord[0],
-            image: object.image ? object.image.value.substring(51) : undefined,
-            town: object.townLabel ? object.townLabel.value : undefined,
-            category: object.category ? object.category.value : undefined,
-            category2: object.townCategory ? object.townCategory.value : undefined,
-            category3: object.adminCategory ? object.adminCategory.value : undefined,
-          };
-        })
-        .filter((element, index, array) => array.findIndex(t => t.id === element.id) === index);
+              return {
+                id: object.item.value.substring(32),
+                name: object.itemLabel ? object.itemLabel.value : undefined,
+                lat: +coord[1],
+                lon: +coord[0],
+                image: object.image
+                  ? object.image.value.substring(51)
+                  : undefined,
+                town: object.townLabel ? object.townLabel.value : undefined,
+                category: object.category ? object.category.value : undefined,
+                category2: object.townCategory
+                  ? object.townCategory.value
+                  : undefined,
+                category3: object.adminCategory
+                  ? object.adminCategory.value
+                  : undefined
+              };
+            })
+            .filter(
+              (element, index, array) =>
+                array.findIndex(t => t.id === element.id) === index
+            );
 
-      vm.cards = cards || [];
-      mapService.clearMarkers();
-      vm.map.highlight = '';
+          vm.cards = cards || [];
+          mapService.clearMarkers();
+          vm.map.highlight = "";
 
-      if (!data) { return; }
-      cards.forEach((element) => {
-        vm.map.markers[element.id] = setMarker(element);
-      });
-    }, () => {
-      vm.loading.active -= 1;
-      vm.cards = [];
-    });
+          if (!data) {
+            return;
+          }
+          cards.forEach(element => {
+            vm.map.markers[element.id] = setMarker(element);
+          });
+        },
+        () => {
+          vm.loading.active -= 1;
+          vm.cards = [];
+        }
+      );
   }
 
   function setMarker(element) {
@@ -196,15 +223,13 @@ function controller(
       data: element,
       lat: element.lat,
       lng: element.lon,
-      layer: 'pins',
-      icon: mapService.getMapIcon(element),
+      layer: "pins",
+      icon: mapService.getMapIcon(element)
     };
     return data;
   }
 }
 
 export default () => {
-  angular
-    .module('app')
-    .component('wwMap', MapComponent);
+  angular.module("app").component("wwMap", MapComponent);
 };
