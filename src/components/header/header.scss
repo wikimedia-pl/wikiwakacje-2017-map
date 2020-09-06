@@ -3,7 +3,7 @@
 ww-header {
   .ww-header__main {
     min-height: 60px;
-    background: #1d1d1d !important;
+    background: white !important;
 
     .md-toolbar-tools {
       height: 60px;
@@ -14,8 +14,9 @@ ww-header {
 
   .ww-header__logo {
     // width: 50px;
-    height: 50px;
+    height: 35px;
     margin-left: 10px;
+    margin-right: 10px;
 
     @include x-small {
       margin-right: 5px;
@@ -24,7 +25,7 @@ ww-header {
   }
 
   .ww-header__title {
-    color: white;
+    color: #1d1d1d;
     font-size: 17px;
     font-weight: bold;
     line-height: 50px;
@@ -40,7 +41,6 @@ ww-header {
     border: 0;
     padding: 10px 15px;
     background: transparent;
-    color: white;
     font-family: "Open Sans", sans-serif;
 
     &:focus {
@@ -69,7 +69,8 @@ ww-header {
     top: 60px;
     right: 0;
     width: 600px;
-    background: #1d1d1d;
+    background: #eee;
+    color: #1d1d1d;
 
     @include x-small {
       max-width: 100%;
@@ -81,7 +82,7 @@ ww-header {
     font-size: 18px;
     cursor: pointer;
     &:hover {
-      background: #1d1d1d;
+      background: #efefef;
     }
     small {
       opacity: 0.7;
