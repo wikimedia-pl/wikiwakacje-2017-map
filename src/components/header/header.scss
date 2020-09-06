@@ -1,8 +1,10 @@
-@import '../../styles/responsive';
+@import "../../styles/responsive";
 
 ww-header {
   .ww-header__main {
     min-height: 60px;
+    background: #1d1d1d !important;
+
     .md-toolbar-tools {
       height: 60px;
       min-height: 60px;
@@ -11,7 +13,7 @@ ww-header {
   }
 
   .ww-header__logo {
-    width: 50px;
+    // width: 50px;
     height: 50px;
     margin-left: 10px;
 
@@ -27,7 +29,7 @@ ww-header {
     font-weight: bold;
     line-height: 50px;
   }
-  
+
   .ww-header__buttons-toolbar {
     z-index: 1;
     min-height: 60px;
@@ -39,7 +41,7 @@ ww-header {
     padding: 10px 15px;
     background: transparent;
     color: white;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
 
     &:focus {
       outline: 0;
@@ -67,9 +69,9 @@ ww-header {
     top: 60px;
     right: 0;
     width: 600px;
-    background: #37474f;
+    background: #1d1d1d;
 
-    @include x-small { 
+    @include x-small {
       max-width: 100%;
     }
   }
@@ -79,10 +81,10 @@ ww-header {
     font-size: 18px;
     cursor: pointer;
     &:hover {
-      background: #4b616c;
+      background: #1d1d1d;
     }
     small {
-      opacity: .7;
+      opacity: 0.7;
     }
   }
 
@@ -93,7 +95,7 @@ ww-header {
     font-weight: 600;
     font-size: 18px;
 
-    @include x-small { 
+    @include x-small {
       font-size: 14px;
     }
   }

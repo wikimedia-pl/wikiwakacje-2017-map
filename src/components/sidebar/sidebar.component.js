@@ -53,7 +53,7 @@ function controller(
 
   function uploadExtra() {
     const campaigns = {
-      monuments: 'wikiwakacje-z',
+      monuments: 'wlm-pl',
       nature: 'wikiwakacje-n',
       art: 'wikiwakacje-s',
     };

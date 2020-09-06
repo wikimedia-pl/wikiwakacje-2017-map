@@ -10,14 +10,10 @@ const CardComponent = {
   template,
 };
 
-function controller(
-  $timeout,
-  $window,
-  mapService,
-  versionService,
-  dataService) {
+function controller($timeout, $window, mapService, versionService, dataService) {
   const vm = this;
-  const uploadUrl = 'https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=';
+  const uploadUrl =
+    'https://commons.wikimedia.org/w/index.php?title=Special:UploadWizard&campaign=';
 
   vm.map = mapService.getMap();
 
@@ -70,11 +66,11 @@ function controller(
 
   function getNatureCategory() {
     const names = {
-      Rezerwaty: `Nature reserve ${vm.data.name}`,  // eg. Łażyn
-      ParkiKrajobrazowe: vm.data.name,              // eg. Nadwiślański Park Krajobrazowy
-      ObszarySpecjalnejOchrony: vm.data.name,       // eg. Dolina Dolnej Wisły
-      SpecjalneObszaryOchrony: vm.data.name,        // eg. Dolina Dolnej Wisły
-      ParkiNarodowe: vm.data.name,                  // eg. Babiogórski Park Narodowy
+      Rezerwaty: `Nature reserve ${vm.data.name}`, // eg. Łażyn
+      ParkiKrajobrazowe: vm.data.name, // eg. Nadwiślański Park Krajobrazowy
+      ObszarySpecjalnejOchrony: vm.data.name, // eg. Dolina Dolnej Wisły
+      SpecjalneObszaryOchrony: vm.data.name, // eg. Dolina Dolnej Wisły
+      ParkiNarodowe: vm.data.name, // eg. Babiogórski Park Narodowy
       ZespolyPrzyrodniczoKrajobrazowe: vm.data.name, // eg. Zakole Wawerskie
       PomnikiPrzyrody: 'Natural monuments in Poland',
     };
@@ -94,10 +90,12 @@ function controller(
 
   function getMonumentUploadUrl() {
     const description = [vm.data.town, vm.data.name].join(', ');
-    const category = vm.data.category || `${vm.data.category2 || vm.data.category3 || 'Cultural heritage monuments in Poland'}`;
+    const category =
+      vm.data.category ||
+      `${vm.data.category2 || vm.data.category3 || 'Cultural heritage monuments in Poland'}`;
 
     let url = uploadUrl;
-    url += 'wikiwakacje-z&descriptionlang=pl';
+    url += 'wlm-pl&descriptionlang=pl';
     url += `&description=${description}&categories=${category}&id=Q${vm.data.id}`;
     url += `&lat=${vm.data.lat}&lon=${vm.data.lon}`;
     return url;
@@ -146,7 +144,5 @@ function controller(
 }
 
 export default () => {
-  angular
-    .module('app')
-    .component('wwCard', CardComponent);
+  angular.module('app').component('wwCard', CardComponent);
 };

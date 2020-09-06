@@ -1,17 +1,17 @@
-@import '../../styles/responsive';
+@import "../../styles/responsive";
 
 ww-sidebar {
   position: relative;
   background: #ededed; // #fafafa;
 
-  @include x-small { 
+  @include x-small {
     height: 200px;
   }
 
   .ww-sidebar-info {
     padding: 25px 10px;
     color: #757575;
-    opacity: .5;
+    opacity: 0.5;
     text-align: center;
 
     .material-icons {
@@ -22,10 +22,10 @@ ww-sidebar {
   .ww-cards {
     overflow: auto;
     width: 100%;
-    height: calc(100vh - 186px);
+    height: calc(100vh - 126px);
     background: #ededed;
 
-    @include x-small { 
+    @include x-small {
       height: 200px;
     }
   }
@@ -37,7 +37,7 @@ ww-sidebar {
     height: calc(100vh - 186px);
     background: #ededed;
 
-    @include x-small { 
+    @include x-small {
       height: 200px;
     }
   }

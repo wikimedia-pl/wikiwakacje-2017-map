@@ -1,51 +1,72 @@
 <md-toolbar class="md-hue-2 ww-header__main">
-  <div class="md-toolbar-tools"
-        layout="row" layout-align="center center">
-    <a href="http://wikiwakacje.pl">
-      <img class="ww-header__logo"
-            src="assets/images/logo.png" alt="Wikiwakacje">
+  <div class="md-toolbar-tools" layout="row" layout-align="center center">
+    <a href="http://wikizabytki.pl">
+      <img
+        class="ww-header__logo"
+        src="http://i.imgur.com/zOijb1h.png"
+        alt="Wiki Lubi Zabytki"
+      />
     </a>
-    <h2 class="ww-header__title" hide-xs>
-      <a href="http://wikiwakacje.pl">#wikiwakacje</a>
-    </h2>
     <span flex></span>
-    <input class="ww-header__search" flex="66" flex-xs="100"
+    <input
+      class="ww-header__search"
+      flex="66"
+      flex-xs="100"
       type="text"
       placeholder="{{ ::$ctrl.text.SEARCH_PLACEHOLDER }}"
       ng-model="$ctrl.searchInput"
       ng-change="$ctrl.search()"
       ng-focus="$ctrl.search()"
-      ng-model-options="{ debounce: 200 }"/>
-    <md-button class="md-icon-button ww-header__search-clear"
-                ng-if="$ctrl.searchInput"
-                ng-click="$ctrl.clearSearch()">
+      ng-model-options="{ debounce: 200 }"
+    />
+    <md-button
+      class="md-icon-button ww-header__search-clear"
+      ng-if="$ctrl.searchInput"
+      ng-click="$ctrl.clearSearch()"
+    >
       <md-icon>close</md-icon>
     </md-button>
     <div class="ww-header__search-results">
-      <div class="ww-header__search-result"
-            layout="column" layout-align="start stretch"
-            ng-repeat="result in $ctrl.searchResults"
-            ng-click="$ctrl.showOnMap(result)">
+      <div
+        class="ww-header__search-result"
+        layout="column"
+        layout-align="start stretch"
+        ng-repeat="result in $ctrl.searchResults"
+        ng-click="$ctrl.showOnMap(result)"
+      >
         <strong>{{ result.name }}</strong>
         <small>{{ result.details }}</small>
       </div>
     </div>
   </div>
 </md-toolbar>
-<md-toolbar class="md-hue-2 ww-header__buttons-toolbar"
-              layout="row" layout-align="center center">
-  <md-button class="ww-header__button ww-header__button--nature" flex="33"
-              ng-click="$ctrl.changeVersion('nature')">
+<md-toolbar
+  class="md-hue-2 ww-header__buttons-toolbar"
+  layout="row"
+  layout-align="center center"
+  ng-if="false"
+>
+  <md-button
+    class="ww-header__button ww-header__button--nature"
+    flex="33"
+    ng-click="$ctrl.changeVersion('nature')"
+  >
     <md-icon hide-xs>cloud</md-icon>
     <span>{{ ::$ctrl.text.HEADER_NATURE }}</span>
   </md-button>
-  <md-button class="ww-header__button ww-header__button--monuments" flex="33"
-              ng-click="$ctrl.changeVersion('monuments')">
+  <md-button
+    class="ww-header__button ww-header__button--monuments"
+    flex="33"
+    ng-click="$ctrl.changeVersion('monuments')"
+  >
     <md-icon hide-xs>account_balance</md-icon>
     <span>{{ ::$ctrl.text.HEADER_MONUMENTS }}</span>
   </md-button>
-  <md-button class="ww-header__button ww-header__button--art" flex="33"
-              ng-click="$ctrl.changeVersion('art')">
+  <md-button
+    class="ww-header__button ww-header__button--art"
+    flex="33"
+    ng-click="$ctrl.changeVersion('art')"
+  >
     <md-icon hide-xs>extension</md-icon>
     <span>{{ ::$ctrl.text.HEADER_ART }}</span>
   </md-button>

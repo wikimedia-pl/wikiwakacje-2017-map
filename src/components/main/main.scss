@@ -1,10 +1,10 @@
 .ww-container {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 60px);
 
   .ww-container__map--loading {
     padding: 25px 10px;
     color: #757575;
-    opacity: .5;
+    opacity: 0.5;
     text-align: center;
 
     .cssload-container {
